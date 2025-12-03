@@ -1,9 +1,7 @@
 from algos import *
 
 
-if __name__ == "__main__" :
-    pb_a_traiter = demander_pb_a_traiter()
-
+def boucle_principale() :
     # Lire le tableau et stocker en mémoire (à faire par Matthew)
     
     matrice_1 = [ # Matrice de test
@@ -12,7 +10,7 @@ if __name__ == "__main__" :
         [100,100]
     ]
     
-    
+
     choix_algo = demander_algo()
 
     if(choix_algo == 1) :
@@ -22,4 +20,10 @@ if __name__ == "__main__" :
         print("Vous avez choisi Balas-Hammer")
         balas_hammer()
 
-    
+
+if __name__ == "__main__" :
+    pb_a_traiter = demander_pb_a_traiter()
+    while(pb_a_traiter != 0) :
+        boucle_principale()
+
+        pb_a_traiter = demander_pb_a_traiter()
