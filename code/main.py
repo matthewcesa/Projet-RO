@@ -18,7 +18,6 @@ def boucle_principale() :
         print("Vous avez choisi Nord-Ouest")
     else : # choix_algo = 2
         print("Vous avez choisi Balas-Hammer")
-        balas_hammer()
 
 
 if __name__ == "__main__" :
