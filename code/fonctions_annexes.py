@@ -10,11 +10,11 @@ def afficher_matrice(matrice, nb_lignes, nb_colonnes) :
 
 # Pour demander quel problème on souhaite traiter
 def demander_pb_a_traiter() :
-    pb_a_traiter = int(input("Choisissez le numéro du problème à traiter : "))
+    pb_a_traiter = int(input("Choisissez le numéro du problème à traiter (0 pour sortir): "))
     
-    while((pb_a_traiter < 1) or (pb_a_traiter > 13)) :
-        print("Erreur : saisissez une valeur entre 1 et 13 inclus.")
-        pb_a_traiter = int(input("Choisissez le numéro du problème à traiter : "))
+    while((pb_a_traiter < 0) or (pb_a_traiter > 13)) :
+        print("Erreur : saisissez une valeur entre 1 et 13 inclus (0 pour sortir).")
+        pb_a_traiter = int(input("Choisissez le numéro du problème à traiter (0 pour sortir): "))
     
     return pb_a_traiter
 
