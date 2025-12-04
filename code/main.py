@@ -1,4 +1,5 @@
 from algos import *
+from Probleme import *
 
 
 def boucle_principale() :
@@ -21,8 +22,10 @@ def boucle_principale() :
 
 
 if __name__ == "__main__" :
-    pb_a_traiter = demander_pb_a_traiter()
-    while(pb_a_traiter != 0) :
-        boucle_principale()
+    p = Probleme(3,3)
+    afficher_matrice(p.couts)
+    # pb_a_traiter = demander_pb_a_traiter()
+    # while(pb_a_traiter != 0) :
+        # boucle_principale()
 
-        pb_a_traiter = demander_pb_a_traiter()
+        # pb_a_traiter = demander_pb_a_traiter()
