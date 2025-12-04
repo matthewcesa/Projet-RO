@@ -5,6 +5,7 @@ def afficher_matrice(matrice, nb_lignes, nb_colonnes) :
 
     for i in range(nb_lignes-1) :
         for j in range (nb_colonnes-1) :
+            # Pour afficher chaque case avec un écart de 8 caractères à droite, sans retour à la ligne
             print(f"{matrice[i][j]:<8}", end="")
         print()
 

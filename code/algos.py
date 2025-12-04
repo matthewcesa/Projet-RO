@@ -2,7 +2,7 @@ from fonctions_annexes import *
 
 
 
-# Steve fait cet algo
+# Constant fait cet algo
 def balas_hammer() :
     return 0
 
@@ -14,7 +14,7 @@ def nord_ouest() :
 
 
 #
-# Méthode du marche-pied avec potentiel
+# Steve fait cet algo
 #
 def marche_pied_potentiel() :
     # Affichage de la proposition de transport, ainsi que son coût de transport total
@@ -27,7 +27,10 @@ def marche_pied_potentiel() :
     return 0
 
 
-# VÉRIFIER QUE C'EST CORRECT
+#
+# Fait par Steve
+# VÉRIFIER QUE C'EST CORRECT (je suis pas sûr que ce soit bon)
+#
 def calcul_couts_marginaux(matrice_couts, matrice_couts_potentiels) :
     i = 0
     j = 0
