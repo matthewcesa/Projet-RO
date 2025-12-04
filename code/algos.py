@@ -3,8 +3,9 @@ from fonctions_annexes import *
 
 
 # Constant fait cet algo
-def balas_hammer() :
-    return 0
+def balas_hammer(matrice_provision, matrice_cout) :
+    matrice_complete = matrice_provision
+    return matrice_complete
 
 
 
