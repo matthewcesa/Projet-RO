@@ -1,31 +1,37 @@
-from algos import *
-from Probleme import *
+from ihm import choisir_Nb_Probleme, choisir_Algo, rester_Sur_Meme_Probleme
+from algos import appliquer_Algo, appliquer_MPP
 
+while True:
+    numProblem = choisir_Nb_Probleme()
 
-def boucle_principale() :
-    # Lire le tableau et stocker en mémoire (à faire par Matthew)
+    # PARTIE DE MATTHEW :
+    #Lecture, création et affichage de la matrice des coûts associée au problème choisi.
+    solution_Initiale = charger_Matrice(numProblem) #Solution initiale = matrice de provision et de coûts.
+    afficher_Matrices(solution_Initiale)
     
-    matrice_1 = [ # Matrice de test
-        [30,20,100],
-        [10,50,100],
-        [100,100]
-    ]
+    # Demander à l'utilisateur de choisir l'algorithme pour fixer la proposition initiale et l'exécuter.
+    choix_Algo = choisir_Algo()
+
+    # Exécution de l'algorithme choisi pour obtenir une proposition de transport.
+    solution_Initiale = appliquer_Algo(choix_Algo, solution_Initiale)
     
+    # Afficher les matrices de PROVISION et de COÛTS CALCULÉES.
+    afficher_Matrices(solution_Initiale)
+    
+    solution_courante = solution_Initiale
+    est_Optimale = False
 
-    choix_algo = demander_algo()
+    # Dérouler la méthode du marche-pied avec potentiel :
+    while not est_Optimale:
+        # Exécution d'une itération de la méthode du marche-pied avec potentiel.
+        solution_courante, est_Optimale = appliquer_MPP(solution_courante)
 
-    if(choix_algo == 1) :
-        # Nord-Ouest
-        print("Vous avez choisi Nord-Ouest")
-    else : # choix_algo = 2
-        print("Vous avez choisi Balas-Hammer")
-
-
-if __name__ == "__main__" :
-    p = Probleme(3,3)
-    afficher_matrice(p.couts)
-    # pb_a_traiter = demander_pb_a_traiter()
-    # while(pb_a_traiter != 0) :
-        # boucle_principale()
-
-        # pb_a_traiter = demander_pb_a_traiter()
+    solution_Optimale = solution_courante
+    # Afficher la proposition de transport optimale, ainsi que son coût.
+    print("\n--- RÉSULTAT FINAL ---")
+    print(f"Proposition de transport optimale : {solution_Optimale['proposition']}")
+    print(f"Coût total optimal : {solution_Optimale['cout_total']}")
+    
+    # Proposer à l'utilisateur de changer de problème de transport (Fin tant que)
+    if not rester_Sur_Meme_Probleme():
+        break
