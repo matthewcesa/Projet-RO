@@ -1,6 +1,6 @@
 class lecture_fichiers : 
     
-    listes_matrices_stockes = []
+    listes_problemes_de_transport = []
 
     @classmethod
     def lecture_simple_fichier(cls, nom_fichier) : # deux boucles non imbriqués donc compelxité = O(2n)
@@ -31,6 +31,8 @@ class lecture_fichiers :
 
         ligne_commandes = matrice_entiere[P]
         commandes.extend(ligne_commandes[:C]) # On prend seulement les C premières valeurs
+
+        
 
 
         
