@@ -8,8 +8,8 @@ class lecture_fichiers :
             lignes = [l.strip() for l in f.readlines()] 
         
         premiere_ligne = [int(x) for x in lignes[0].split()]
-        C = premiere_ligne[0] # nombre de de lignes => provisions
-        P = premiere_ligne[1] # nombre de colonnes => commandes
+        P = premiere_ligne[0] # nombre de de lignes => provisions
+        C = premiere_ligne[1] # nombre de colonnes => commandes
 
         matrice_entiere = [] # représente la matrice entière sans C et P => que les valeurs
         for ligne in lignes[1:] : # on commence a partir de la ligne 1 et on va jusqu'à la fin 
@@ -18,7 +18,7 @@ class lecture_fichiers :
         
         provisions = [] 
         commandes = [] 
-        couts = [] # provisions x commandes
+        couts = [] # provisions x commandes 
 
         for i in range (P) : # on extraits les couts et les provisions 
             ligne = matrice_entiere[i]
@@ -32,9 +32,17 @@ class lecture_fichiers :
         ligne_commandes = matrice_entiere[P]
         commandes.extend(ligne_commandes[:C]) # On prend seulement les C premières valeurs
 
+<<<<<<< HEAD
         
 
 
+=======
+    @classmethod 
+    def affiche_matrice(cls, P, C, couts) : #changer les parametres
+        for i in range(P) : 
+            for j in range (C) : 
+                print (couts[i][j], end = ' ')
+>>>>>>> 7648de2faa158fcfad8df47136b0cb860bcf4910
         
 # il faut tester la focntion pour voir si elle marche vraiment 
 # il manque la mémorisation des novuelles matrices créé
