@@ -1,6 +1,6 @@
 class lecture_fichiers : 
     
-    listes_matrices_stockes = []
+    listes_problemes_de_transport = []
 
     @classmethod
     def lecture_simple_fichier(cls, nom_fichier) : # deux boucles non imbriqués donc compelxité = O(2n)
@@ -32,12 +32,12 @@ class lecture_fichiers :
         ligne_commandes = matrice_entiere[P]
         commandes.extend(ligne_commandes[:C]) # On prend seulement les C premières valeurs
 
-
     @classmethod 
     def affiche_matrice(cls, P, C, couts) : #changer les
         for i in range(P) : 
             for j in range (C) : 
                 print (couts[i][j], end = ' ')
+
         
 # il faut tester la focntion pour voir si elle marche vraiment 
 # il manque la mémorisation des novuelles matrices créé
