@@ -1,3 +1,4 @@
+import math
 class graphes : 
 
     matrice_stock = []
@@ -5,12 +6,6 @@ class graphes :
     matrice_couts_potentiel = []
     matrice_couts_marginaux = [] # couts marginaux = couts - couts potentiels
     
-    
-    @classmethod
-    def __init__(self, P, C, couts) : 
-        self.P = P 
-        self.C = C 
-        self.couts = couts
         
     @classmethod
     def lecture_fichier_txt(cls, nom_fichier) : 
@@ -27,4 +22,14 @@ class graphes :
         #     matrice_entiere.append(ligne_int)
         
         # Faire la matrice des couts
+        matrice_cout = []
+        matrice_provisions_x_commandes = [[math.inf for _ in range(P)] for _ in range(C)] # on intialise la matrice avec que des infinis
+        for ligne in lignes[1:][:-1] : 
+            ligne_int = [int (valeur) for valeur in ligne.split()]  # pour la matrice de cout
+            #il faut ajouter les provisions et les commandes dans la matrice des provisions x commandes (en cours)
+            matrice_cout.append(ligne_int) # on ajoute a la matrice de cout
+            
+        
+        
+            
         # Faire la matrice commande x provisions

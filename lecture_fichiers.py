@@ -32,8 +32,9 @@ class lecture_fichiers :
         ligne_commandes = matrice_entiere[P]
         commandes.extend(ligne_commandes[:C]) # On prend seulement les C premières valeurs
 
+
     @classmethod 
-    def affiche_matrice(cls, P, C, couts) : #changer les parametres
+    def affiche_matrice(cls, P, C, couts) : #changer les
         for i in range(P) : 
             for j in range (C) : 
                 print (couts[i][j], end = ' ')
