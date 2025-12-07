@@ -3,10 +3,13 @@ def afficher_matrice(matrice, nb_lignes, nb_colonnes) :
     i = 0
     j = 0
 
-    for i in range(nb_lignes-1) :
-        for j in range (nb_colonnes-1) :
+    for i in range(nb_lignes) :
+        for j in range (nb_colonnes) :
             # Pour afficher chaque case avec un écart de 8 caractères à droite, sans retour à la ligne
-            print(f"{matrice[i][j]:<8}", end="")
+            if matrice[i][j] is None:
+                print(f"{'None':<10}", end="")
+            else:
+                print(f"{matrice[i][j]:<10}", end="")
         print()
 
 # Pour demander quel problème on souhaite traiter
@@ -33,3 +36,17 @@ def demander_algo() :
         choix_algo = int(input("Votre choix : "))
     
     return choix_algo
+
+# Pour calculer la somme des marchandises transportables dans le circuit
+def calculer_somme_transport(proposition_transport) :
+    i = len(proposition_transport)-1
+    j = 0
+
+    somme = 0
+
+    for j in range (len(proposition_transport[0])-1) :
+        somme += proposition_transport[i][j]
+        # print(f"Somme += {proposition_transport[i][j]}")
+    
+    print(f"Somme coûts : {somme}")
+    return somme
