@@ -29,7 +29,7 @@ if __name__ == "__main__" :
         if(choix_algo == 1) :
             # Nord-Ouest
             print("Vous avez choisi Nord-Ouest")
-            break
-        else : # choix_algo = 2
+        else : # Si choix_algo = 2
             print("Vous avez choisi Balas-Hammer")
-            break
+
+        marche_pied_potentiel(couts, proposition_transport)
