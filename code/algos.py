@@ -1,29 +1,5 @@
 from fonctions_annexes import *
 
-def get_sommet_plus_connecte(matrice_stocks) :
-    i = 0
-    j = 0
-
-    nb_valeurs_non_nulles = [0] * len(matrice_stocks[0])
-
-
-    for j in range (len(matrice_stocks[0])) : # il faut mettre -1 je crois
-        for i in range (len(matrice_stocks)) : # pareil
-            if(matrice_stocks[i][j] != 0) :
-                nb_valeurs_non_nulles[j] += 1
-        # print(f"La colonne {j} contient {nb_valeurs_non_nulles[j]} connexions")
-    
-    max_connexions = 0
-    sommet_connecte = 0
-    for i in range (0, len(nb_valeurs_non_nulles)) :
-        if(nb_valeurs_non_nulles[i] > max_connexions) :
-            max_connexions = nb_valeurs_non_nulles[i]
-            sommet_connecte = i
-            # print(f"Le sommet connecté devient {i}")
-    
-    print(f"Le sommet le plus connecté est C{sommet_connecte}") # DEBUG
-    return sommet_connecte
-
 # Détermine et applique l'algorithme choisi par l'utilisateur pour obtenir une proposition de transport initiale.
 def appliquer_Algo(choix_Algo, solution_Initiale):
     match choix_Algo:
