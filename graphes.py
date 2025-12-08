@@ -9,6 +9,9 @@ class graphes :
     P = 0 #nombres de lignes -> provisions
     C = 0 #nombres de colonnes -> commandes
     
+    
+    
+    
     #méthode qui lit le fichier txt et mémorise les données pour en faire des matrices
     @classmethod
     def lecture_fichier_txt(cls, nom_fichier) : 
@@ -44,6 +47,9 @@ class graphes :
             cls.matrice_provisions_x_commandes[i][-1] = ligne_int[-1]           
             
             
+            
+            
+            
     # méthode affichage pour les contantes tableaux (matrice_cout, matrice_provisions_x_commandes, etc )
     @classmethod
     def print_matrice_constante(cls, matrice) : 
@@ -66,6 +72,9 @@ class graphes :
         for val in dernière_ligne_matrice[:lenC]:
             ligne_actuelle += str(val).center(COL_WIDTH)
             
+        
+        
+        
         
     # méthode pour afficher la matrice de transport sous forme de tableau
     @classmethod 
@@ -131,14 +140,17 @@ class graphes :
 
 
 
+
+
+
 # Test de la lecture de fichier et affichage des matrices
-graphes.lecture_fichier_txt("matrices/matrice_12.txt")
+# graphes.lecture_fichier_txt("matrices/matrice_12.txt")
 
-print("Matrice des coûts (sans dernière colonne) :")
-graphes.print_matrice_constante(graphes.matrice_cout)
+# print("Matrice des coûts (sans dernière colonne) :")
+# graphes.print_matrice_constante(graphes.matrice_cout)
 
-print("\nMatrice des provisions x commandes (dernière ligne + dernière colonne) :")
-graphes.print_matrice_constante(graphes.matrice_provisions_x_commandes)
-graphes.afficher_matrice_transport()
+# print("\nMatrice des provisions x commandes (dernière ligne + dernière colonne) :")
+# graphes.print_matrice_constante(graphes.matrice_provisions_x_commandes)
+# graphes.afficher_matrice_transport()
 
     
