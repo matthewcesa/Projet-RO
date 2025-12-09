@@ -48,5 +48,5 @@ def calculer_somme_transport(proposition_transport) :
         somme += proposition_transport[i][j]
         # print(f"Somme += {proposition_transport[i][j]}")
     
-    print(f"Somme coûts : {somme}")
+    # print(f"Somme coûts : {somme}")
     return somme
