@@ -14,9 +14,9 @@ if __name__ == "__main__" :
         afficher_matrice(couts, len(couts), len(couts[0]))
 
         proposition_transport = [
-            [0,0,0,0,60],
-            [0,0,0,0,30],
-            [0,0,0,0,90],
+            [50,10,0,0,60],
+            [0,30,0,0,30],
+            [0,35,30,25,90],
             [50,75,30,25]
         ]
 
