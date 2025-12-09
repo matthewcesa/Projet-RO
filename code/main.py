@@ -1,4 +1,5 @@
 from marchepied import *
+from nord_ouest import *
 
 
 if __name__ == "__main__" :
@@ -14,9 +15,9 @@ if __name__ == "__main__" :
         afficher_matrice(couts, len(couts), len(couts[0]))
 
         proposition_transport = [
-            [50,10,0,0,60],
-            [0,30,0,0,30],
-            [0,35,30,25,90],
+            [0,0,0,0,60],
+            [0,0,0,0,30],
+            [0,0,0,0,90],
             [50,75,30,25]
         ]
 
@@ -29,6 +30,10 @@ if __name__ == "__main__" :
         if(choix_algo == 1) :
             # Nord-Ouest
             print("Vous avez choisi Nord-Ouest")
+            matrice = algorithme_nord_ouest(proposition_transport)
+
+            afficher_matrice(matrice, len(matrice), len(matrice[0]))
+
         else : # Si choix_algo = 2
             print("Vous avez choisi Balas-Hammer")
 

@@ -45,25 +45,3 @@ def algorithme_nord_ouest(matrice_provisions_et_commandes) :
         elif commandes[j] == 0 : 
             j+=1 # on décale vers la case de droite
     return matrice_final
-
-
-
-matrice = [
-    [math.inf, math.inf, math.inf,  450],
-    [math.inf, math.inf, math.inf,  250],
-    [math.inf, math.inf, math.inf,  250],
-    [math.inf, math.inf, math.inf, 450],
-    [500,       600,    300,        1400]
-]
-
-# Exécution de l'algorithme
-resultat = algorithme_nord_ouest(matrice)
-
-# Affichage
-print("Matrice des allocations :")
-for ligne in resultat:
-    print(ligne)
-
-
-
-
