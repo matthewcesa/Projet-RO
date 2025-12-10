@@ -1,6 +1,6 @@
 from fonctions_annexes import *
 from collections import deque
-
+# from degenere import *
 
 # Fait par Steve
 # Sert à trouver le sommet de commande le plus connecté
@@ -300,6 +300,21 @@ def afficher_composante(composante, n):
             noms.append(f"C{s-n}")
     return noms
 
+
+def arete_a_ajouter(couts_potentiels) :
+    i = 0
+    j = 0
+
+    for i in range (len(couts_potentiels)) :
+        for j in range (len(couts_potentiels[0])) :
+            if(couts_potentiels[i][j] < 0) :
+                return (i,j)
+    return None
+
+
+def maximisation_transport(proposition_transport) :
+    return proposition_transport
+
 #   
 # Steve fait cet algo
 #
@@ -320,7 +335,8 @@ def marche_pied_potentiel(couts, proposition_transport) :
         cout_transport = calcul_cout_transport(couts, proposition_transport)
         print(f"Coût total de transport : {cout_transport}")
 
-        if(est_cyclique(proposition_transport)) :
+        
+        if(est_cyclique(proposition_transport) == True) :
             print("La proposition est cyclique.")
             break # Retirer
         print("La proposition de transport est acyclique.")
@@ -349,7 +365,11 @@ def marche_pied_potentiel(couts, proposition_transport) :
 
         # Modifier ici, pour sortir de la boucle while si on a une proposition optimale
         if(not est_optimale(couts_marginaux)) :
-            return 0 # Modifier
+            print("La proposition n'est pas optimale")
+            arete = arete_a_ajouter(couts_potentiels)
+            print(f"L'arête à ajouter est {arete}.")
+            return 0
+            
         else :
             break # Sort de la boucle
 
