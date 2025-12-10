@@ -25,12 +25,11 @@ class graphes :
         longueur_ligne = len(lignes) - 1            # utiliser pour la matrice des provisions x commandes
         longueur_colonne = len(lignes[1].split())   # utiliser pour la matrice des provisions x commandes
 
-        cls.matrice_cout = []
         
         for ligne in lignes[1:][:-1] : 
             ligne_int = [int (valeur) for valeur in ligne.split()]  # on convertit en entier et on découpe les valeurs
             ligne_sans_derniere_colonne = ligne_int[:-1] # on enleve la derniere colonne
-            cls.matrice_cout.append(ligne_sans_derniere_colonne) # on ajoute a la matrice de cout
+            cls.matrice_couts.append(ligne_sans_derniere_colonne) # on ajoute a la matrice de cout
 
         # on intialise la matrice provisions x commandes avec que des infinis
         cls.matrice_provisions_x_commandes = [[math.inf for _ in range(longueur_colonne)] for _ in range(longueur_ligne)] 
@@ -147,7 +146,7 @@ class graphes :
 # graphes.lecture_fichier_txt("matrices/matrice_12.txt")
 
 # print("Matrice des coûts (sans dernière colonne) :")
-# graphes.print_matrice_constante(graphes.matrice_cout)
+# graphes.print_matrice_constante(graphes.matrice_couts)
 
 # print("\nMatrice des provisions x commandes (dernière ligne + dernière colonne) :")
 # graphes.print_matrice_constante(graphes.matrice_provisions_x_commandes)
