@@ -42,39 +42,29 @@ def calcul_potentiels(couts, proposition_transport) :
         for _ in range(len(couts))
     ]
 
-    arcs = []
-
     sommet_plus_connecte = get_sommet_plus_connecte(proposition_transport)
+    # print(f"Le sommet le plus connecté est {sommet_plus_connecte}")
 
-    E_S = [None] * len(couts)
-    E_C = [None] * len(couts[0])
+    E_S = [0] * len(couts)
+    E_C = [0] * len(couts[0])
     E_C[sommet_plus_connecte] = 0
+
     
     # On s'infiltre dans l'arbre : d'abord, si un chemin existe entre un sommet de stock et un sommet de commande,
     # alors la case correspondante dans la matrice des coûts potentiels = le coût de transport
     for i in range (0, len(couts)) :
-        for j in range (0, len(couts[0])) :
-            if(chemin_existe(proposition_transport, i,j)) :
-                print(f"Il existe un arc entre S{i} et C{j}")
-                # arcs.append(i,j)
-                # couts_potentiels[i][j] = couts[i][j]
-                if(j == sommet_plus_connecte) :
-                    E_S[i] = couts[i][j]
+        if(chemin_existe(proposition_transport, i,sommet_plus_connecte)) :                
+                    E_S[i] = couts[i][sommet_plus_connecte]
+                    print(f"E_S[{i}] = {E_S[i]}")
     
+    print(f"E_S : {E_S}")
+
     
+
     for i in range (0, len(couts)) :
         for j in range (0, len(couts[0])) :
-            if(E_S[i] is not None and (E_C[j] is None)) :
-                E_C[j] = E_S[i] - couts[i][j]
-                print(f"E_C[{j}] = {E_C[j]}")
+            if((E_S[i] is not None) and (E_C[j] is not None)) :
                 couts_potentiels[i][j] = E_S[i] - E_C[j]
-            elif(E_S[i] is None and (E_C[j] is not None)) :
-                E_S[i] = couts[i][j] + E_C[j]
-                print(f"E_S[{i}] = {E_S[i]}")
-                couts_potentiels[i][j] = E_S[i] - E_C[j]
-            elif(E_S[i] is None and (E_C[j] is  None)) :
-                print(f"E_S[{i}] et E_C[{j}] sont None")
-
 
     return couts_potentiels
 
@@ -125,8 +115,9 @@ def calcul_couts_marginaux(couts, couts_potentiels) :
 
     for i in range (len(couts)) :
         ligne = []
-        for j in range (len(couts_potentiels[0])) :
-            ligne.append(couts[i][j] - couts_potentiels[i][j])
+        for j in range (len(couts[0])) :
+            if(couts_potentiels[i][j] is not None) :
+                ligne.append(couts[i][j] - couts_potentiels[i][j])
         couts_marginaux.append(ligne)
     
     return couts_marginaux
@@ -340,16 +331,9 @@ def marche_pied_potentiel(couts, proposition_transport) :
         
         print("La proposition est connexe.")
 
-        E_S = [None] * len(couts[0])
-        E_C = [None] * len(couts)
         
         
         couts_potentiels = calcul_potentiels(couts, proposition_transport)
-        
-
-        sommet_plus_connecte = get_sommet_plus_connecte(proposition_transport)
-        E_C[sommet_plus_connecte] = 0
-        i = 0
         
 
         print("Coûts potentiels :")
@@ -367,7 +351,7 @@ def marche_pied_potentiel(couts, proposition_transport) :
         if(not est_optimale(couts_marginaux)) :
             return 0 # Modifier
         else :
-            break
+            break # Sort de la boucle
 
     # Après qu'on soit sorti de la boucle...
     print("La proposition est optimale.")
@@ -375,3 +359,5 @@ def marche_pied_potentiel(couts, proposition_transport) :
 
     cout_transport = calcul_cout_transport(couts, proposition_transport)
     print(f"Coût total de transport : {cout_transport}")
+
+    return couts_potentiels

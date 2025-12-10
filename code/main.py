@@ -1,26 +1,24 @@
 from marchepied import *
 from nord_ouest import *
 from balas_np import *
+from graphes import *
 
 
 if __name__ == "__main__" :
     probleme = demander_pb_a_traiter()
+    print(f"Probleme : {probleme}")
     while (probleme != 0) :
-        # Lire le tableau dans le fichier correspondant
-        couts = [
-            [11,12,10,10],
-            [17,16,15,18],
-            [19,21,20,22]
-        ]
-        print("Matrice des coûts :")
-        afficher_matrice(couts, len(couts), len(couts[0]))
+        graphes.lecture_fichier_txt(f"../matrices/matrice_{probleme}.txt")
 
-        proposition_transport = [
-            [0,0,0,0,60],
-            [0,0,0,0,30],
-            [0,0,0,0,90],
-            [50,75,30,25]
-        ]
+
+        # Lire le tableau dans le fichier correspondant
+        couts = graphes.matrice_couts
+
+        print("Matrice des coûts :")
+        graphes.print_matrice_constante(graphes.matrice_couts)
+        # afficher_matrice(graphes.matrice_couts, len(graphes.matrice_couts), len(graphes.matrice_couts[0]))
+
+        proposition_transport = graphes.matrice_provisions_x_commandes
 
         proposition_transport[len(proposition_transport)-1].append(calculer_somme_transport(proposition_transport))
 
@@ -47,5 +45,11 @@ if __name__ == "__main__" :
 
 
         marche_pied_potentiel(couts, proposition_transport)
+
+        
+
+
+        probleme = demander_pb_a_traiter()
+        print(f"Probleme : {probleme}")
     
     print("Vous ne souhaitez plus tester de nouveaux problèmes.")
