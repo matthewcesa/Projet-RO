@@ -12,6 +12,15 @@ def afficher_matrice(matrice, nb_lignes, nb_colonnes) :
                 print(f"{matrice[i][j]:<10}", end="")
         print()
 
+
+def copier_tableau(matrice, proposition_transport) :
+    i = 0
+    j = 0
+
+    for i in range (len(matrice)) :
+        for j in range(len(matrice[0])) :
+            proposition_transport[i][j] = matrice [i][j]
+
 # Pour demander quel problème on souhaite traiter
 def demander_pb_a_traiter() :
     pb_a_traiter = int(input("Choisissez le numéro du problème à traiter (0 pour sortir): "))
