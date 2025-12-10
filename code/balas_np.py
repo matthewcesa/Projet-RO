@@ -27,8 +27,8 @@ def balas_hammer(matrice_provisions, matrice_couts):
     total_lignes_restantes = provisions[:n_lignes, -1].copy()
     total_colonne_restantes = provisions[-1, :n_colonnes].copy()
 
-    print(total_lignes_restantes)
-    print(total_colonne_restantes)
+    # print(total_lignes_restantes)
+    # print(total_colonne_restantes)
 
     # Matrice résultat que je retuorne à la fin
     resultat = provisions.copy()  # on ne touche pas aux dernières lignes/colonnes
