@@ -69,10 +69,7 @@ class graphes :
         ligne_actuelle = ""
         dernière_ligne_matrice = matrice[lenP-1] 
         for val in dernière_ligne_matrice[:lenC]:
-            ligne_actuelle += str(val).center(COL_WIDTH)
-            
-        
-        
+            ligne_actuelle += str(val).center(COL_WIDTH)  
         
         
     # méthode pour afficher la matrice de transport sous forme de tableau
@@ -135,8 +132,6 @@ class graphes :
         
         
         print("-" * TOTAL_WIDTH)
-
-
 
 
 
