@@ -30,11 +30,11 @@ def get_sommet_plus_connecte(proposition_transport) :
     return sommet_connecte
 
 
-def arc_existe(arcs,i,j) :
-    for arc in arcs :
-        if (i,j) == arc :
-            return True
-    return False
+# def arc_existe(arcs,i,j) :
+#     for arc in arcs :
+#         if (i,j) == arc :
+#             return True
+#     return False
 
 def calcul_potentiels(couts, proposition_transport) :
     couts_potentiels = [
