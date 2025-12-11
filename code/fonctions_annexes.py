@@ -59,3 +59,30 @@ def calculer_somme_transport(proposition_transport) :
     
     # print(f"Somme coûts : {somme}")
     return somme
+
+
+def somme_ligne_probleme_transport(probleme_transport) :
+    i = 0
+    j = 0
+
+    nb_colonnes = len(probleme_transport[0])
+
+    for i in range (len(probleme_transport)) :
+        somme = 0
+        for j in range (nb_colonnes) :
+            somme += probleme_transport[i][j]
+        probleme_transport[i].append(somme)
+
+
+def somme_colonne_probleme_transport(probleme_transport) :
+    i = 0
+    j = 0
+
+    ligne = []
+
+    for j in range (len(probleme_transport[0])) :
+        somme = 0
+        for i in range (len(probleme_transport)) :
+            somme += probleme_transport[i][j]
+        ligne.append(somme)
+    probleme_transport.append(ligne)
