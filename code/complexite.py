@@ -1,12 +1,13 @@
 from math import *
 import random
 from fonctions_annexes import *
+from graphes import *
 
 
 def generer_probleme_aleatoire(n) :
     i = 0
     j = 0
-
+    
     couts = []
     probleme_transport = []
 
@@ -19,6 +20,9 @@ def generer_probleme_aleatoire(n) :
         couts.append(ligne_couts)
         probleme_transport.append(ligne_probleme_transport)
     
+    graphes.matrice_couts = couts
+    graphes.matrice_provisions_x_commandes = probleme_transport
+
     # Ajouter la somme des marchandises circulant en fin de ligne et de colonne
 
     print("Coûts :")
