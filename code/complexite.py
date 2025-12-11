@@ -20,6 +20,8 @@ def generer_probleme_aleatoire(n) :
         couts.append(ligne_couts)
         probleme_transport.append(ligne_probleme_transport)
     
+    somme_ligne_probleme_transport(probleme_transport)
+    somme_colonne_probleme_transport(probleme_transport)
     graphes.matrice_couts = couts
     graphes.matrice_provisions_x_commandes = probleme_transport
 
