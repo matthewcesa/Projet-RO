@@ -44,7 +44,7 @@ if __name__ == "__main__" :
             afficher_matrice(proposition_transport, len(proposition_transport), len(proposition_transport[0]))
 
 
-        marche_pied_potentiel(couts, proposition_transport)
+        marche_pied_potentiel(graphes, couts, proposition_transport)
 
         
 
