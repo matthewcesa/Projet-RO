@@ -84,17 +84,17 @@ def calcul_potentiels(couts, proposition_transport) :
         for j in range (0, len(couts[0])) :
             if((E_S[i] is not None) and (E_C[j] is None)) :
                 E_C[j] = E_S[i] - couts[i][j]
-                print(f"Calcul : E_C[{j}] = E_S[{i}] - couts[{i}][{j}] = {E_S[i]} - {couts[i][j]} = {E_C[j]}")
+                # print(f"Calcul : E_C[{j}] = E_S[{i}] - couts[{i}][{j}] = {E_S[i]} - {couts[i][j]} = {E_C[j]}")
             elif((E_S[i] is None) and (E_C[j] is not None)) :
                 E_S[i] = couts[i][j] + E_C[j]
-                print(f"Calcul : E_S[{i}] = couts[{i}][{j}] + E_C[{j}] = {couts[i][j] + E_C[j]} = {E_S[i]}")
+                # print(f"Calcul : E_S[{i}] = couts[{i}][{j}] + E_C[{j}] = {couts[i][j] + E_C[j]} = {E_S[i]}")
 
             couts_potentiels[i][j] = E_S[i] - E_C[j]
-            print(f"couts_potentiels[{i}][{j}] = {E_S[i]} - {E_C[j]} = {couts_potentiels[i][j]}")   
+            # print(f"couts_potentiels[{i}][{j}] = {E_S[i]} - {E_C[j]} = {couts_potentiels[i][j]}")   
             
 
-    print(f"E_S : {E_S}")
-    print(f"E_C : {E_C}")
+    # print(f"E_S : {E_S}")
+    # print(f"E_C : {E_C}")
 
     return couts_potentiels
 
@@ -352,11 +352,6 @@ def arete_a_ajouter(couts_potentiels) :
     return None
 
 
-def maximisation_transport(proposition_transport, couts_marginaux) :
-    arete = arete_a_ajouter(couts_marginaux)
-    print(f"L'arête à ajouter est {arete}.")
-    return proposition_transport
-
 #   
 # Steve fait cet algo
 #
@@ -411,8 +406,8 @@ def marche_pied_potentiel(graphes, couts, proposition_transport) :
         # Modifier ici, pour sortir de la boucle while si on a une proposition optimale
         if(not est_optimale(couts_marginaux)) :
             print("La proposition n'est pas optimale")
-            maximisation_transport(proposition_transport, couts_marginaux)
-            return None
+            arete = arete_a_ajouter(couts_marginaux)
+            print(f"Arête : {arete}")
             
         else :
             break # Sort de la boucle
