@@ -1,5 +1,6 @@
 from fonctions_annexes import *
 from collections import deque
+from graphes import *
 # from degenere import *
 
 # Fait par Steve
@@ -45,26 +46,55 @@ def calcul_potentiels(couts, proposition_transport) :
     sommet_plus_connecte = get_sommet_plus_connecte(proposition_transport)
     # print(f"Le sommet le plus connecté est {sommet_plus_connecte}")
 
-    E_S = [0] * len(couts)
-    E_C = [0] * len(couts[0])
+    E_S = [None] * len(couts)
+    E_C = [None] * len(couts[0])
+
     E_C[sommet_plus_connecte] = 0
 
     
     # On s'infiltre dans l'arbre : d'abord, si un chemin existe entre un sommet de stock et un sommet de commande,
     # alors la case correspondante dans la matrice des coûts potentiels = le coût de transport
     for i in range (0, len(couts)) :
-        if(chemin_existe(proposition_transport, i,sommet_plus_connecte)) :                
-                    E_S[i] = couts[i][sommet_plus_connecte]
-                    print(f"E_S[{i}] = {E_S[i]}")
+        for j in range (0, len(couts[0])) :
+            if(chemin_existe(proposition_transport, i,j)) :
+                        couts_potentiels[i][j] = couts[i][j]
+                        if(j == sommet_plus_connecte) :
+                            E_S[i] = couts[i][sommet_plus_connecte]
+                            # print(f"E_S[{i}] = {E_S[i]}")
     
-    print(f"E_S : {E_S}")
+    print("Coûts pot SF :")
+    afficher_matrice(couts_potentiels, len(couts_potentiels), len(couts_potentiels[0]))
+    
+    for i in range (0, len(couts)) :
+        if(E_S[i] is not None) :
+            for j in range (0, len(couts[0])) :
+                if(chemin_existe(proposition_transport, i,j)) :
+                        if(E_C[j] is None) :
+                            E_C[j] = E_S[i] - couts[i][j]
 
-    
+    for j in range (0, len(couts[0])) :
+        if(E_C[j] is not None) :
+            for i in range (0, len(couts)) :
+                if(chemin_existe(proposition_transport, i,j)) :
+                        if(E_S[i] is None) :
+                            E_S[i] = couts[i][j] + E_C[j]
+
 
     for i in range (0, len(couts)) :
         for j in range (0, len(couts[0])) :
-            if((E_S[i] is not None) and (E_C[j] is not None)) :
-                couts_potentiels[i][j] = E_S[i] - E_C[j]
+            if((E_S[i] is not None) and (E_C[j] is None)) :
+                E_C[j] = E_S[i] - couts[i][j]
+                print(f"Calcul : E_C[{j}] = E_S[{i}] - couts[{i}][{j}] = {E_S[i]} - {couts[i][j]} = {E_C[j]}")
+            elif((E_S[i] is None) and (E_C[j] is not None)) :
+                E_S[i] = couts[i][j] + E_C[j]
+                print(f"Calcul : E_S[{i}] = couts[{i}][{j}] + E_C[{j}] = {couts[i][j] + E_C[j]} = {E_S[i]}")
+
+            couts_potentiels[i][j] = E_S[i] - E_C[j]
+            print(f"couts_potentiels[{i}][{j}] = {E_S[i]} - {E_C[j]} = {couts_potentiels[i][j]}")   
+            
+
+    print(f"E_S : {E_S}")
+    print(f"E_C : {E_C}")
 
     return couts_potentiels
 
@@ -87,6 +117,11 @@ def calcul_cout_transport(couts, proposition_transport) :
     i = 0
     j = 0
     cout_transport = 0
+
+    # print(f"len(couts) : {len(couts)}")
+    # print(f"len(couts[0]) : {len(couts[0])}")
+    # print(f"len(pt) : {len(proposition_transport)}")
+    # print(f"len(pt[0]) : {len(proposition_transport[0])}")
 
     for i in range (len(couts)) :
         for j in range (len(couts[0])) :
@@ -113,11 +148,16 @@ def calcul_couts_marginaux(couts, couts_potentiels) :
 
     couts_marginaux = []
 
+    # print("CP :")
+    # print(couts_potentiels)
+
     for i in range (len(couts)) :
         ligne = []
         for j in range (len(couts[0])) :
             if(couts_potentiels[i][j] is not None) :
                 ligne.append(couts[i][j] - couts_potentiels[i][j])
+            else :
+                ligne.append(0)
         couts_marginaux.append(ligne)
     
     return couts_marginaux
@@ -312,13 +352,15 @@ def arete_a_ajouter(couts_potentiels) :
     return None
 
 
-def maximisation_transport(proposition_transport) :
+def maximisation_transport(proposition_transport, couts_marginaux) :
+    arete = arete_a_ajouter(couts_marginaux)
+    print(f"L'arête à ajouter est {arete}.")
     return proposition_transport
 
 #   
 # Steve fait cet algo
 #
-def marche_pied_potentiel(couts, proposition_transport) :
+def marche_pied_potentiel(graphes, couts, proposition_transport) :
     iteration = 0
     while True :        
         iteration += 1
@@ -331,10 +373,11 @@ def marche_pied_potentiel(couts, proposition_transport) :
         # Affichage de la proposition de transport
         print("Proposition de transport :")
         afficher_matrice(proposition_transport, len(proposition_transport), len(proposition_transport[0]))
+        print()
 
         cout_transport = calcul_cout_transport(couts, proposition_transport)
         print(f"Coût total de transport : {cout_transport}")
-
+        print()
         
         if(est_cyclique(proposition_transport) == True) :
             print("La proposition est cyclique.")
@@ -348,34 +391,37 @@ def marche_pied_potentiel(couts, proposition_transport) :
         print("La proposition est connexe.")
 
         
-        
         couts_potentiels = calcul_potentiels(couts, proposition_transport)
         
-
+        
         print("Coûts potentiels :")
         afficher_matrice(couts_potentiels, len(couts_potentiels), len(couts_potentiels[0]))
+        print()
 
         # Ce qu'il faut faire maintenant :
         # On part d'un sommet S avec potentiel (i.e ceux reliés au sommet très connecté), et on remplit les sommets C
         # Après cela, on traite les sommets S qui n'ont pas encore de potentiel
 
         couts_marginaux = calcul_couts_marginaux(couts, couts_potentiels)
+        
         print("Coûts marginaux :")
         afficher_matrice(couts_marginaux, len(couts_marginaux), len(couts_marginaux[0]))
+        print()
 
         # Modifier ici, pour sortir de la boucle while si on a une proposition optimale
         if(not est_optimale(couts_marginaux)) :
             print("La proposition n'est pas optimale")
-            arete = arete_a_ajouter(couts_potentiels)
-            print(f"L'arête à ajouter est {arete}.")
-            return 0
+            maximisation_transport(proposition_transport, couts_marginaux)
+            return None
             
         else :
             break # Sort de la boucle
 
     # Après qu'on soit sorti de la boucle...
+    
     print("La proposition est optimale.")
     afficher_matrice(proposition_transport, len(proposition_transport), len(proposition_transport[0]))
+    print()
 
     cout_transport = calcul_cout_transport(couts, proposition_transport)
     print(f"Coût total de transport : {cout_transport}")
