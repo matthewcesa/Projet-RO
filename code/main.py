@@ -16,7 +16,7 @@ if __name__ == "__main__" :
 
         print("Matrice des coûts :")
         graphes.print_matrice_constante(graphes.matrice_couts)
-        # afficher_matrice(graphes.matrice_couts, len(graphes.matrice_couts), len(graphes.matrice_couts[0]))
+        afficher_matrice(graphes.matrice_couts, len(graphes.matrice_couts), len(graphes.matrice_couts[0]))
 
         proposition_transport = graphes.matrice_provisions_x_commandes
 
@@ -44,7 +44,7 @@ if __name__ == "__main__" :
             afficher_matrice(proposition_transport, len(proposition_transport), len(proposition_transport[0]))
 
 
-        marche_pied_potentiel(graphes, couts, proposition_transport)
+        marche_pied_potentiel(couts, proposition_transport)
 
         
 

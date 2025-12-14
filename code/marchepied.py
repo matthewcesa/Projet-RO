@@ -355,15 +355,16 @@ def arete_a_ajouter(couts_potentiels) :
 #   
 # Steve fait cet algo
 #
-def marche_pied_potentiel(graphes, couts, proposition_transport) :
+def marche_pied_potentiel(couts, proposition_transport) :
     iteration = 0
+    couts_potentiels = []
     while True :        
         iteration += 1
         print(f"Itération n°{iteration}")
 
 
-        # print("Matrice des coûts :")
-        # afficher_matrice(couts, len(couts), len(couts[0]))
+        print("Matrice des coûts :")
+        afficher_matrice(couts, len(couts), len(couts[0]))
 
         # Affichage de la proposition de transport
         print("Proposition de transport :")
@@ -406,9 +407,9 @@ def marche_pied_potentiel(graphes, couts, proposition_transport) :
         # Modifier ici, pour sortir de la boucle while si on a une proposition optimale
         if(not est_optimale(couts_marginaux)) :
             print("La proposition n'est pas optimale")
-            arete = arete_a_ajouter(couts_marginaux)
-            print(f"Arête : {arete}")
-            
+            # arete = arete_a_ajouter(couts_marginaux)
+            # print(f"Arête : {arete}")
+            return None
         else :
             break # Sort de la boucle
 
