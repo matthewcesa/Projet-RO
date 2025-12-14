@@ -125,9 +125,9 @@ def tests() :
 
         # # Nuage de points pour la complexité de Nord-Ouest
         plt.scatter(numero_probleme, theta_NO)
-        plt.xlabel("Taille n")
+        plt.xlabel("Numéro du problème")
         plt.ylabel("Temps (secondes)")
-        plt.title("Theta Nord-Ouest")
+        plt.title(f"Theta Nord-Ouest : n = {taille_probleme}")
         plt.grid(True)
         plt.savefig(f"../nuages_points/nuage_points_NO_{taille_probleme}.png", dpi=300, bbox_inches="tight")
         # plt.show()
@@ -135,9 +135,9 @@ def tests() :
 
         # # Nuage de points pour la complexité de Balas-Hammer
         plt.scatter(numero_probleme, theta_BH)
-        plt.xlabel("Taille n")
+        plt.xlabel("Numéro du problème")
         plt.ylabel("Temps (secondes)")
-        plt.title("Theta Balas-Hammer")
+        plt.title(f"Theta Balas-Hammer : n = {taille_probleme}")
         plt.grid(True)
         plt.savefig(f"../nuages_points/nuage_points_BH_{taille_probleme}.png", dpi=300, bbox_inches="tight")
         # plt.show()
@@ -145,9 +145,9 @@ def tests() :
 
         # # Nuage de points pour la complexité du marchepied sur la proposition Nord-Ouest
         plt.scatter(numero_probleme, theta_MP_NO)
-        plt.xlabel("Taille n")
+        plt.xlabel("Numéro du problème")
         plt.ylabel("Temps (secondes)")
-        plt.title("Theta marchepied après Nord-Ouest")
+        plt.title(f"Theta marchepied après Nord-Ouest : n = {taille_probleme}")
         plt.grid(True)
         plt.savefig(f"../nuages_points/nuage_points_MP_NO_{taille_probleme}.png", dpi=300, bbox_inches="tight")
         # plt.show()
@@ -155,9 +155,9 @@ def tests() :
 
         # # Nuage de points pour la complexité du marchepied sur la proposition Balas-Hammer
         plt.scatter(numero_probleme, theta_MP_BH)
-        plt.xlabel("Taille n")
+        plt.xlabel("Numéro du problème")
         plt.ylabel("Temps (secondes)")
-        plt.title("Theta marchepied après Balas-Hammer")
+        plt.title(f"Theta marchepied après Balas-Hammer : n = {taille_probleme}")
         plt.grid(True)
         plt.savefig(f"../nuages_points/nuage_points_MP_BH_{taille_probleme}.png", dpi=300, bbox_inches="tight")
         # plt.show()
@@ -165,9 +165,9 @@ def tests() :
 
         # Nuage de points pour la complexité du marchepied sur la proposition Balas-Hammer
         plt.scatter(numero_probleme, somme_theta_NO)
-        plt.xlabel("Taille n")
+        plt.xlabel("Numéro du problème")
         plt.ylabel("Temps (secondes)")
-        plt.title("Somme Theta Nord-Ouest et marchepied après NO")
+        plt.title(f"Somme Theta Nord-Ouest et marchepied après NO : n = {taille_probleme}")
         plt.grid(True)
         plt.savefig(f"../nuages_points/nuage_points_somme_theta_NO_{taille_probleme}.png", dpi=300, bbox_inches="tight")
         # plt.show()
@@ -175,9 +175,9 @@ def tests() :
 
         # Nuage de points pour la complexité du marchepied sur la proposition Balas-Hammer
         plt.scatter(numero_probleme, somme_theta_BH)
-        plt.xlabel("Taille n")
+        plt.xlabel("Numéro du problème")
         plt.ylabel("Temps (secondes)")
-        plt.title("Somme Theta Balas-Hammer et marchepied après BH")
+        plt.title(f"Somme Theta Balas-Hammer et marchepied après BH : n = {taille_probleme}")
         plt.grid(True)
         plt.savefig(f"../nuages_points/nuage_points_somme_theta_BH_{taille_probleme}.png", dpi=300, bbox_inches="tight")
         # plt.show()
