@@ -62,7 +62,7 @@ def calcul_potentiels(couts, proposition_transport) :
                             E_S[i] = couts[i][sommet_plus_connecte]
                             # print(f"E_S[{i}] = {E_S[i]}")
     
-    print("Coûts pot SF :")
+    print("\n=== Coûts pot SF : ===")
     afficher_matrice(couts_potentiels, len(couts_potentiels), len(couts_potentiels[0]))
     
     for i in range (0, len(couts)) :
@@ -164,23 +164,21 @@ def calcul_couts_marginaux(couts, couts_potentiels) :
 
 
 def est_cyclique(proposition_transport):
-    n = len(proposition_transport)-1     # nombre de lignes S_i
-    m = len(proposition_transport[0])-1  # nombre de colonnes C_j
+    n = len(proposition_transport)-1     
+    m = len(proposition_transport[0])-1  
 
-    # ---------- Construction du graphe biparti ----------
-    # Sommets = S0..Sn-1   et   C0..Cm-1  (indexés comme C_j -> n+j)
     nb_sommets = n + m
     adj = [[] for _ in range(nb_sommets)]
 
     for i in range(n):
         for j in range(m):
             if proposition_transport[i][j] > 0:
-                s = i          # sommet S_i
-                c = n + j      # sommet C_j
+                s = i         
+                c = n + j    
                 adj[s].append(c)
                 adj[c].append(s)
 
-    # ---------- BFS pour détecter un cycle ----------
+    # BFS pour détecter un cycle 
     visited = [False] * nb_sommets
     parent  = [-1] * nb_sommets
 
@@ -203,13 +201,13 @@ def est_cyclique(proposition_transport):
                     queue.append(v)
 
                 elif parent[u] != v:
-                    # --- Cycle détecté ---
+                    # Cycle détecté
                     cycle = reconstruire_cycle(parent, u, v, n)
-                    print("Cycle détecté :", cycle)
-                    return True
+                    return True, cycle
 
     print("Aucun cycle détecté.")
-    return False
+    return False, None
+
 
 
 # ---------- Reconstruit le cycle complet entre u et v ----------
@@ -275,7 +273,7 @@ def est_connexe(proposition_transport):
 
     for i in range(n):
         for j in range(m):
-            if proposition_transport[i][j] > 0:
+            if proposition_transport[i][j] != 0:
                 s = i          # sommet S_i
                 c = n + j      # sommet C_j
                 adj[s].append(c)
@@ -356,29 +354,33 @@ def arete_a_ajouter(couts_potentiels) :
 # Steve fait cet algo
 #
 def marche_pied_potentiel(graphes, couts, proposition_transport) :
+    if est_degeneree(proposition_transport):
+        print("\n=== Proposition dégénérée détectée ===")
+        proposition_transport = completer_base(proposition_transport)
+        print("Proposition après complétion de la base :")
+        afficher_matrice(proposition_transport,len(proposition_transport),len(proposition_transport[0]))
+        print()
+
     iteration = 0
     while True :        
         iteration += 1
-        print(f"Itération n°{iteration}")
-
-
+        print(f"\n=== Itération n°{iteration} ===")
         # print("Matrice des coûts :")
         # afficher_matrice(couts, len(couts), len(couts[0]))
 
         # Affichage de la proposition de transport
-        print("Proposition de transport :")
+        print("\nProposition de transport actuelle :")
         afficher_matrice(proposition_transport, len(proposition_transport), len(proposition_transport[0]))
         print()
 
-        cout_transport = calcul_cout_transport(couts, proposition_transport)
-        print(f"Coût total de transport : {cout_transport}")
-        print()
+        cout_transport = round(calcul_cout_transport(couts, proposition_transport))
+        print(f"Coût total de transport : {cout_transport}\n")
         
-        if(est_cyclique(proposition_transport) == True) :
-            print("La proposition est cyclique.")
-            break # Retirer
-        print("La proposition de transport est acyclique.")
+        est_cycle, cycle = est_cyclique(proposition_transport)
 
+        if est_cycle:
+            print("La proposition est cyclique.")
+            break
         if(not est_connexe(proposition_transport)) :
             print("La proposition n'est pas connexe.")
             break # Retirer
@@ -389,7 +391,7 @@ def marche_pied_potentiel(graphes, couts, proposition_transport) :
         couts_potentiels = calcul_potentiels(couts, proposition_transport)
         
         
-        print("Coûts potentiels :")
+        print("\n=== Coûts potentiels : === ")
         afficher_matrice(couts_potentiels, len(couts_potentiels), len(couts_potentiels[0]))
         print()
 
@@ -404,21 +406,153 @@ def marche_pied_potentiel(graphes, couts, proposition_transport) :
         print()
 
         # Modifier ici, pour sortir de la boucle while si on a une proposition optimale
-        if(not est_optimale(couts_marginaux)) :
+        if not est_optimale(couts_marginaux):
             print("La proposition n'est pas optimale")
+
             arete = arete_a_ajouter(couts_marginaux)
-            print(f"Arête : {arete}")
+            print(f"Arête améliorante ajoutée : {arete}")
+
+            i, j = arete
+            proposition_transport[i][j] = 1e-5
+
+            est_cycle, cycle = est_cyclique(proposition_transport)
+            if est_cycle:
+                print("Cycle trouvé :", cycle)
+                proposition_transport = maximiser_sur_cycle(proposition_transport, cycle, arete)
+
+
+            else:
+                print("Erreur : aucun cycle trouvé")
+
+            continue  # nouvelle itération du marche-pied   
+
             
         else :
             break # Sort de la boucle
 
     # Après qu'on soit sorti de la boucle...
     
+    # Nettoyage final de la solution (enlever les epsilons)
+    proposition_transport = nettoyer_solution(proposition_transport)
+
+    # Affichage final propre
     print("La proposition est optimale.")
     afficher_matrice(proposition_transport, len(proposition_transport), len(proposition_transport[0]))
     print()
 
-    cout_transport = calcul_cout_transport(couts, proposition_transport)
+    cout_transport = round(calcul_cout_transport(couts, proposition_transport))
+
     print(f"Coût total de transport : {cout_transport}")
 
-    return couts_potentiels
+
+    return proposition_transport
+
+
+
+def maximiser_sur_cycle(proposition_transport, cycle, arete_ajoutee):
+    # Conversion cycle en arêtes
+    aretes = []
+    for k in range(len(cycle)):
+        s1 = cycle[k]
+        s2 = cycle[(k + 1) % len(cycle)]
+        if s1.startswith("S") and s2.startswith("C"):
+            i, j = int(s1[1:]), int(s2[1:])
+        elif s1.startswith("C") and s2.startswith("S"):
+            i, j = int(s2[1:]), int(s1[1:])
+        else:
+            raise ValueError(f"Cycle mal formé: {s1}-{s2}")
+        aretes.append((i,j))
+
+    idx_plus = aretes.index(arete_ajoutee)
+
+    aretes_plus = aretes[idx_plus::2] + aretes[:idx_plus:2]
+    aretes_moins = aretes[idx_plus+1::2] + aretes[1:idx_plus:2]
+
+    # delta : plus petite valeur dans les arêtes à diminuer, ignorer les epsilons
+    delta = min([proposition_transport[i][j] for (i,j) in aretes_moins if proposition_transport[i][j] > 1e-5])
+    print(f"Delta = {delta}")
+
+    # Appliquer delta aux arêtes + et - avec arrondi entier
+    for (i,j) in aretes_plus:
+        proposition_transport[i][j] = int(round(proposition_transport[i][j] + delta))
+
+    for (i,j) in aretes_moins:
+        proposition_transport[i][j] = int(round(proposition_transport[i][j] - delta))
+        if proposition_transport[i][j] == 0:
+            print(f"Arête supprimée : ({i},{j})")
+
+    return proposition_transport
+
+
+
+# permet d'enlever les epsilons de la solution finale et d'avoir un affichage beau
+def nettoyer_solution(proposition_transport, epsilon=1e-5):
+    n = len(proposition_transport)-1
+    m = len(proposition_transport[0])-1
+
+    for i in range(n):
+        for j in range(m):
+            if abs(proposition_transport[i][j]) < epsilon:
+                proposition_transport[i][j] = 0
+            else:
+                # Arrondi final à l'entier
+                proposition_transport[i][j] = int(round(proposition_transport[i][j]))
+
+    return proposition_transport
+
+
+
+
+
+
+# Permet de vérifier si une proposition de transport est dégénérée
+def est_degeneree(proposition_transport):
+    n = len(proposition_transport)-1
+    m = len(proposition_transport[0])-1
+    nb = 0
+    for i in range(n):
+        for j in range(m):
+            if proposition_transport[i][j] > 0:
+                nb += 1
+    return nb < (n + m - 1)
+
+
+# Permet de compléter une base dégénérée en ajoutant des epsilons
+def completer_base(proposition_transport):
+    n = len(proposition_transport) - 1
+    m = len(proposition_transport[0]) - 1
+
+    nb_requis = n + m - 1
+    # Calcul du nombre d'arêtes actuelles
+    nb_aretes = 0
+    for i in range(n):
+        for j in range(m):
+            if proposition_transport[i][j] > 0:
+                nb_aretes += 1
+
+    epsilon = 1e-6
+    # Ajout des epsilons jusqu'à atteindre le nombre requis
+    for i in range(n):
+        for j in range(m):
+            if proposition_transport[i][j] == 0 and nb_aretes < nb_requis:
+                proposition_transport[i][j] = epsilon
+                nb_aretes += 1
+                print(f"Ajout de ε en position ({i},{j})")
+
+    return proposition_transport
+
+
+
+# permet d'enlever les epsilons de la solution finale
+def nettoyer_solution(proposition_transport, epsilon=1e-5):
+    n = len(proposition_transport)-1
+    m = len(proposition_transport[0])-1
+
+    for i in range(n):
+        for j in range(m):
+            if abs(proposition_transport[i][j]) < epsilon:
+                proposition_transport[i][j] = 0
+            else:
+                proposition_transport[i][j] = round(proposition_transport[i][j]) 
+
+    return proposition_transport

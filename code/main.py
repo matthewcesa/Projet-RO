@@ -14,7 +14,7 @@ if __name__ == "__main__" :
         # Lire le tableau dans le fichier correspondant
         couts = graphes.matrice_couts
 
-        print("Matrice des coûts :")
+        print("=== Matrice des coûts : ===")
         graphes.print_matrice_constante(graphes.matrice_couts)
         # afficher_matrice(graphes.matrice_couts, len(graphes.matrice_couts), len(graphes.matrice_couts[0]))
 
@@ -22,7 +22,7 @@ if __name__ == "__main__" :
 
         proposition_transport[len(proposition_transport)-1].append(calculer_somme_transport(proposition_transport))
 
-        print("Proposition de transport :")
+        print("=== Proposition de transport : ===")
         afficher_matrice(proposition_transport, len(proposition_transport), len(proposition_transport[0]))
 
         print()
@@ -34,13 +34,13 @@ if __name__ == "__main__" :
             print("Vous avez choisi Nord-Ouest")
             matrice = algorithme_nord_ouest(proposition_transport)
             copier_tableau(matrice,proposition_transport) # La fonction de Matthew était implémentée un peu différemment, donc il a fallu faire un rapide ajustement
-            print("Proposition de transport avec Nord-Ouest :")
+            print("\n=== Proposition de transport avec Nord-Ouest : ===")
             afficher_matrice(proposition_transport, len(proposition_transport), len(proposition_transport[0]))
 
         else : # Si choix_algo = 2
             print("Vous avez choisi Balas-Hammer")
             proposition_transport = balas_hammer(proposition_transport, couts)
-            print("Proposition de transport avec Balas-Hammer :")
+            print("\n=== Proposition de transport avec Balas-Hammer : ===")
             afficher_matrice(proposition_transport, len(proposition_transport), len(proposition_transport[0]))
 
 
