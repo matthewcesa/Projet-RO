@@ -1,0 +1,217 @@
+Choisissez le numéro du problème à traiter (0 pour sortir): 6
+Probleme : 6
+=== Matrice des coûts : ===
+   11      12      10      10   
+   17      16      15      18   
+   19      21      20      22   
+=== Proposition de transport : ===
+inf       inf       inf       inf       60        
+inf       inf       inf       inf       30        
+inf       inf       inf       inf       90        
+50        75        30        25        180
+
+Choisissez l'algorithme à utiliser :
+1 : Nord-Ouest
+2 : Balas-Hammer
+Votre choix : 1
+
+Vous avez choisi Nord-Ouest
+
+=== Proposition de transport avec Nord-Ouest : ===
+50        10        0         0         60
+0         30        0         0         30
+0         35        30        25        90
+50        75        30        25        180
+
+=== Itération n°1 ===
+
+Proposition de transport actuelle :
+50        10        0         0         60
+0         30        0         0         30
+0         35        30        25        90
+50        75        30        25        180
+
+Coût total de transport : 3035
+
+Aucun cycle détecté.
+La proposition est connexe.
+
+=== Coûts potentiels : ===
+11        12        11        13
+15        16        15        17
+20        21        20        22
+
+Coûts marginaux :
+0         0         -1        -3
+2         0         0         1
+-1        0         0         0
+
+La proposition n'est pas optimale
+Arête améliorante ajoutée : (0, 2)
+Cycle trouvé : ['C2', 'S0', 'C1', 'S2']
+
+=== Itération n°2 ===
+
+Proposition de transport actuelle :
+50        0         10.00001  0         60
+0         30        0         0         30
+0         45        20        25        90
+50        75        30        25        180
+
+Coût total de transport : 3025
+
+Aucun cycle détecté.
+La proposition est connexe.
+
+=== Coûts potentiels : ===
+11        11        10        12
+16        16        15        17
+21        21        20        22
+
+Coûts marginaux :
+0         1         0         -2
+1         0         0         1
+-2        0         0         0
+
+La proposition n'est pas optimale
+Arête améliorante ajoutée : (0, 3)
+Cycle trouvé : ['C3', 'S0', 'C2', 'S2']
+
+=== Itération n°3 ===
+
+Proposition de transport actuelle :
+50        0         0         10.00002  60
+0         30        0         0         30
+0         45        30.00001  14.99999  90
+50        75        30        25        180
+
+Coût total de transport : 3005
+
+Aucun cycle détecté.
+La proposition est connexe.
+
+=== Coûts potentiels : ===
+11        9         8         10
+18        16        15        17
+23        21        20        22
+
+Coûts marginaux :
+0         3         2         0
+-1        0         0         1
+-4        0         0         0
+
+La proposition n'est pas optimale
+Arête améliorante ajoutée : (1, 0)
+Cycle trouvé : ['S2', 'C3', 'S0', 'C0', 'S1', 'C1']
+
+=== Itération n°4 ===
+
+Proposition de transport actuelle :
+35.00001  0         0         25.00001  60
+15.0      15.00001  0         0         30
+0         59.99999  30.00001  0         90
+50        75        30        25        180
+
+Coût total de transport : 2990
+
+Aucun cycle détecté.
+La proposition est connexe.
+
+=== Coûts potentiels : ===
+11        10        9         10
+17        16        15        16
+22        21        20        21
+
+Coûts marginaux :
+0         2         1         0
+0         0         0         2
+-3        0         0         1
+
+La proposition n'est pas optimale
+Arête améliorante ajoutée : (2, 0)
+Cycle trouvé : ['S2', 'C0', 'S1', 'C1']
+
+=== Itération n°5 ===
+
+Proposition de transport actuelle :
+35.00001  0         0         25.00001  60
+0         30.00001  0         0         30
+15.00001  44.99999  30.00001  0         90
+50        75        30        25        180
+
+Coût total de transport : 2945
+
+Aucun cycle détecté.
+La proposition est connexe.
+
+=== Coûts potentiels : ===
+11        13        12        10
+14        16        15        13
+19        21        20        18
+
+Coûts marginaux :
+0         -1        -2        0
+3         0         0         5
+0         0         0         4
+
+La proposition n'est pas optimale
+Arête améliorante ajoutée : (0, 1)
+Cycle trouvé : ['C1', 'S0', 'C0', 'S2']
+
+=== Itération n°6 ===
+
+Proposition de transport actuelle :
+0         35.0000200000000060         25.00001  60
+0         30.00001  0         0         30
+50.0000200000000069.99997999999999430.00001  0         90
+50        75        30        25        180
+
+Coût total de transport : 2910
+
+Aucun cycle détecté.
+La proposition est connexe.
+
+=== Coûts potentiels : ===
+10        12        11        10
+14        16        15        14
+19        21        20        19
+
+Coûts marginaux :
+1         0         -1        0
+3         0         0         4
+0         0         0         3
+
+La proposition n'est pas optimale
+Arête améliorante ajoutée : (0, 2)
+Cycle trouvé : ['C2', 'S0', 'C1', 'S2']
+
+=== Itération n°7 ===
+
+Proposition de transport actuelle :
+0         5.00001000000000730.00002  25.00001  60
+0         30.00001  0         0         30        
+50.00002000000000639.99999  0         0         90
+50        75        30        25        180
+
+Coût total de transport : 2880
+
+Aucun cycle détecté.
+La proposition est connexe.
+
+=== Coûts potentiels : ===
+10        12        10        10
+14        16        14        14
+19        21        19        19
+
+Coûts marginaux :
+1         0         0         0
+3         0         1         4
+0         0         1         3
+
+La proposition est optimale.
+0         5         30        25        60
+0         30        0         0         30
+50        40        0         0         90
+50        75        30        25        180
+
+Coût total de transport : 2880

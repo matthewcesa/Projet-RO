@@ -2,6 +2,7 @@ from marchepied import *
 from nord_ouest import *
 from balas_np import *
 from graphes import *
+import os
 
 
 if __name__ == "__main__" :

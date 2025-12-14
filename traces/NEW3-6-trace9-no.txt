@@ -1,0 +1,245 @@
+Choisissez le numéro du problème à traiter (0 pour sortir): 9
+Probleme : 9
+=== Matrice des coûts : ===
+   30      20      15   
+   10      50      2    
+   9       10      30   
+   6       2       29   
+   50      40      3    
+   5       38      27   
+   50      4       22   
+=== Proposition de transport : ===
+inf       inf       inf       100
+inf       inf       inf       100
+inf       inf       inf       100
+inf       inf       inf       100
+inf       inf       inf       100
+inf       inf       inf       100
+inf       inf       inf       100
+400       200       100       700
+
+Choisissez l'algorithme à utiliser :
+1 : Nord-Ouest
+2 : Balas-Hammer
+Votre choix : 1
+
+Vous avez choisi Nord-Ouest
+
+=== Proposition de transport avec Nord-Ouest : ===
+100       0         0         100
+100       0         0         100
+100       0         0         100
+100       0         0         100
+0         100       0         100
+0         100       0         100
+0         0         100       100
+400       200       100       700
+
+=== Proposition dégénérée détectée ===
+Ajout de ε en position (0,1)
+Ajout de ε en position (0,2)
+Proposition après complétion de la base :
+
+
+=== Itération n°1 ===
+
+Proposition de transport actuelle :
+100       1e-06     1e-06     100
+100       0         0         100
+100       0         0         100
+100       0         0         100
+0         100       0         100
+0         100       0         100
+0         0         100       100
+400       200       100       700
+
+Coût total de transport : 15500
+
+Aucun cycle détecté.
+La proposition est connexe.
+
+=== Coûts potentiels : ===
+30        20        15
+10        0         -5
+9         -1        -6
+6         -4        -9
+50        40        35
+48        38        33
+37        27        22
+
+Coûts marginaux :
+0         0         0
+0         50        7
+0         11        36
+0         6         38
+0         0         -32
+-43       0         -6
+13        -23       0
+
+La proposition n'est pas optimale
+Arête améliorante ajoutée : (4, 2)
+Cycle trouvé : ['C2', 'S0', 'C1', 'S4']
+
+=== Itération n°2 ===
+
+Proposition de transport actuelle :
+100       2e-06     0         100
+100       0         0         100
+100       0         0         100
+100       0         0         100
+0         99.999999 1.1000000000000001e-05100
+0         100       0         100
+0         0         100       100
+400       200       100       700
+
+Coût total de transport : 15500
+
+Aucun cycle détecté.
+La proposition est connexe.
+
+=== Coûts potentiels : ===
+30        20        -17
+10        0         -37
+9         -1        -38
+6         -4        -41
+50        40        3
+48        38        1
+69        59        22
+
+Coûts marginaux :
+0         0         32
+0         50        39
+0         11        68
+0         6         70
+0         0         0
+-43       0         26
+-19       -55       0
+
+La proposition n'est pas optimale
+Arête améliorante ajoutée : (5, 0)
+Cycle trouvé : ['C1', 'S0', 'C0', 'S5']
+
+=== Itération n°3 ===
+
+Proposition de transport actuelle :
+0         100.0000020         100
+100       0         0         100
+100       0         0         100
+100       0         0         100
+0         99.999999 1.1000000000000001e-05100
+100.00001 0         0         100
+0         0         100       100
+400       200       100       700
+
+Coût total de transport : 11200
+
+Aucun cycle détecté.
+La proposition est connexe.
+
+=== Coûts potentiels : ===
+None      20        -17
+None      None      None
+None      None      None
+None      None      None
+None      40        3
+None      None      None
+None      59        22
+
+Coûts marginaux :
+0         0         32
+0         0         0
+0         0         0
+0         0         0
+0         0         0
+0         0         0
+0         -55       0
+
+La proposition n'est pas optimale
+Arête améliorante ajoutée : (6, 1)
+Cycle trouvé : ['S6', 'C1', 'S4', 'C2']
+
+=== Itération n°4 ===
+
+Proposition de transport actuelle :
+0         100.0000020         100
+100       0         0         100       
+100       0         0         100
+100       0         0         100
+0         0         100.00001 100
+100.00001 0         0         100
+0         100.0000099.999999974752427e-07100
+400       200       100       700
+
+Coût total de transport : 5700
+
+Aucun cycle détecté.
+La proposition est connexe.
+
+=== Coûts potentiels : ===
+None      20        38
+None      None      None
+None      None      None
+None      None      None
+None      -15       3
+None      None      None
+None      4         22
+
+Coûts marginaux :
+0         0         -23
+0         0         0
+0         0         0
+0         0         0
+0         55        0
+0         0         0
+0         0         0
+
+La proposition n'est pas optimale
+Arête améliorante ajoutée : (0, 2)
+Cycle trouvé : ['C2', 'S0', 'C1', 'S6']
+
+=== Itération n°5 ===
+
+Proposition de transport actuelle :
+0         100.0000011.0999999997475244e-05100
+100       0         0         100
+100       0         0         100
+100       0         0         100
+0         0         100.00001 100
+100.00001 0         0         100
+0         100.00001 0         100
+400       200       100       700
+
+Coût total de transport : 5700
+
+Aucun cycle détecté.
+La proposition est connexe.
+
+=== Coûts potentiels : ===
+None      20        15
+None      None      None
+None      None      None
+None      None      None
+None      8         3
+None      None      None
+None      4         -1
+
+Coûts marginaux :
+0         0         0
+0         0         0
+0         0         0
+0         0         0
+0         32        0
+0         0         0
+0         0         23
+
+La proposition est optimale.
+0         100       0         100
+100       0         0         100
+100       0         0         100
+100       0         0         100
+0         0         100       100
+100       0         0         100
+0         100       0         100
+400       200       100       700
+
+Coût total de transport : 5700

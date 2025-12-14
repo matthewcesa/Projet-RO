@@ -3,100 +3,76 @@ from collections import deque
 from graphes import *
 # from degenere import *
 
-# Fait par Steve
+
 # Sert à trouver le sommet de commande le plus connecté
-# => c'est simplement la colonne de la matrice de stocks qui a le moins de 0
+# C'est la colonne de la matrice de transport avec le plus de valeurs non nulles
 def get_sommet_plus_connecte(proposition_transport) :
     i = 0
     j = 0
 
     nb_valeurs_non_nulles = [0] * len(proposition_transport[0])
 
-
-    for j in range (len(proposition_transport[0]) - 1) : # il faut mettre -1 je crois
-        for i in range (len(proposition_transport) - 1) : # pareil
+    # Compte le nombre de connexions pour chaque colonne
+    for j in range (len(proposition_transport[0]) - 1) : 
+        for i in range (len(proposition_transport) - 1) : 
             if(proposition_transport[i][j] != 0) :
                 nb_valeurs_non_nulles[j] += 1
-        # print(f"La colonne {j} contient {nb_valeurs_non_nulles[j]} connexions")
-    
+        
+    # Trouve la colonne avec le maximum de connexions
     max_connexions = 0
     sommet_connecte = 0
     for i in range (0, len(nb_valeurs_non_nulles)) :
         if(nb_valeurs_non_nulles[i] > max_connexions) :
             max_connexions = nb_valeurs_non_nulles[i]
             sommet_connecte = i
-            # print(f"Le sommet connecté devient {i}")
-    
-    print(f"Le sommet le plus connecté est C{sommet_connecte}") # DEBUG
+
+    print(f"Le sommet le plus connecté est C{sommet_connecte}")
     return sommet_connecte
 
 
-# def arc_existe(arcs,i,j) :
-#     for arc in arcs :
-#         if (i,j) == arc :
-#             return True
-#     return False
+# Calcul des potentiels
+def calcul_potentiels(couts, proposition_transport):
+    # Initialisation des potentiels pour les boucles
+    n = len(couts)
+    m = len(couts[0])
 
-def calcul_potentiels(couts, proposition_transport) :
-    couts_potentiels = [
-        [None] * len(couts[0]) 
-        for _ in range(len(couts))
-    ]
+    # u pour les sommets S, v pour les sommets C (lignes et colonnes)
+    u = [None]*n    
+    v = [None]*m
 
-    sommet_plus_connecte = get_sommet_plus_connecte(proposition_transport)
-    # print(f"Le sommet le plus connecté est {sommet_plus_connecte}")
+    # On fixe une valeur pour initialiser
+    u[0] = 0 
 
-    E_S = [None] * len(couts)
-    E_C = [None] * len(couts[0])
+    # Boucle jusqu'à ce qu'il n'y ait plus de changements
+    change = True
+    while change:
+        change = False
+        # parcours chaque ligne
+        for i in range(n):
+            #  Parcours chaque colonne
+            for j in range(m):
+                # Si une valeur de transport existe (donc pas nulle ou epsilon qu'on veut pas))
+                if proposition_transport[i][j] > 1e-7:
+                    #  si v[j] est pas connu mais u[i] oui
+                    if u[i] is not None and v[j] is None:
+                        # Calcul de v[j]
+                        v[j] = couts[i][j] - u[i]
+                        change = True
+                    # Sinon, si v[j] est connu mais pas u[i]
+                    elif u[i] is None and v[j] is not None:
+                        u[i] = couts[i][j] - v[j]
+                        change = True
 
-    E_C[sommet_plus_connecte] = 0
+    # Création d'une table avec que des None qu'on rempli avec les potentiels
+    couts_pot = [[None]*m for _ in range(n)]
+    for i in range(n):
+        for j in range(m):
+            if u[i] is not None and v[j] is not None:
+                couts_pot[i][j] = u[i] + v[j]
 
-    
-    # On s'infiltre dans l'arbre : d'abord, si un chemin existe entre un sommet de stock et un sommet de commande,
-    # alors la case correspondante dans la matrice des coûts potentiels = le coût de transport
-    for i in range (0, len(couts)) :
-        for j in range (0, len(couts[0])) :
-            if(chemin_existe(proposition_transport, i,j)) :
-                        couts_potentiels[i][j] = couts[i][j]
-                        if(j == sommet_plus_connecte) :
-                            E_S[i] = couts[i][sommet_plus_connecte]
-                            # print(f"E_S[{i}] = {E_S[i]}")
-    
-    print("\n=== Coûts pot SF : ===")
-    afficher_matrice(couts_potentiels, len(couts_potentiels), len(couts_potentiels[0]))
-    
-    for i in range (0, len(couts)) :
-        if(E_S[i] is not None) :
-            for j in range (0, len(couts[0])) :
-                if(chemin_existe(proposition_transport, i,j)) :
-                        if(E_C[j] is None) :
-                            E_C[j] = E_S[i] - couts[i][j]
-
-    for j in range (0, len(couts[0])) :
-        if(E_C[j] is not None) :
-            for i in range (0, len(couts)) :
-                if(chemin_existe(proposition_transport, i,j)) :
-                        if(E_S[i] is None) :
-                            E_S[i] = couts[i][j] + E_C[j]
+    return couts_pot
 
 
-    for i in range (0, len(couts)) :
-        for j in range (0, len(couts[0])) :
-            if((E_S[i] is not None) and (E_C[j] is None)) :
-                E_C[j] = E_S[i] - couts[i][j]
-                # print(f"Calcul : E_C[{j}] = E_S[{i}] - couts[{i}][{j}] = {E_S[i]} - {couts[i][j]} = {E_C[j]}")
-            elif((E_S[i] is None) and (E_C[j] is not None)) :
-                E_S[i] = couts[i][j] + E_C[j]
-                # print(f"Calcul : E_S[{i}] = couts[{i}][{j}] + E_C[{j}] = {couts[i][j] + E_C[j]} = {E_S[i]}")
-
-            couts_potentiels[i][j] = E_S[i] - E_C[j]
-            # print(f"couts_potentiels[{i}][{j}] = {E_S[i]} - {E_C[j]} = {couts_potentiels[i][j]}")   
-            
-
-    # print(f"E_S : {E_S}")
-    # print(f"E_C : {E_C}")
-
-    return couts_potentiels
 
 
 # Indique si une proposition de transport est optimale
@@ -112,16 +88,12 @@ def est_optimale(couts_marginaux) :
     return True
 
 
+
 # Permet de calculer le coût total de transport d'une proposition de transport
 def calcul_cout_transport(couts, proposition_transport) :
     i = 0
     j = 0
     cout_transport = 0
-
-    # print(f"len(couts) : {len(couts)}")
-    # print(f"len(couts[0]) : {len(couts[0])}")
-    # print(f"len(pt) : {len(proposition_transport)}")
-    # print(f"len(pt[0]) : {len(proposition_transport[0])}")
 
     for i in range (len(couts)) :
         for j in range (len(couts[0])) :
@@ -130,46 +102,37 @@ def calcul_cout_transport(couts, proposition_transport) :
     return cout_transport
 
 
-# Indique si un chemin existe entre 2 sommets
-# True si un sommet existe
-# False sinon
-def chemin_existe(proposition_transport, S, C) :
-    if(proposition_transport[S][C] == 0) :
-        return False
-    return True
-
-#
-# Fait par Steve
-# VÉRIFIER QUE C'EST CORRECT (je suis pas sûr que ce soit bon)
-#
-def calcul_couts_marginaux(couts, couts_potentiels) :
-    i = 0
-    j = 0
-
-    couts_marginaux = []
-
-    # print("CP :")
-    # print(couts_potentiels)
-
-    for i in range (len(couts)) :
-        ligne = []
-        for j in range (len(couts[0])) :
-            if(couts_potentiels[i][j] is not None) :
-                ligne.append(couts[i][j] - couts_potentiels[i][j])
-            else :
-                ligne.append(0)
-        couts_marginaux.append(ligne)
-    
-    return couts_marginaux
+# Vérifie si une arête existe entre deux sommets (donc si pas 0 et pas epsilon)
+def chemin_existe(proposition_transport, i, j):
+    return proposition_transport[i][j] > 1e-6
 
 
+# Calcul des coûts marginaux 
+def calcul_couts_marginaux(couts, couts_potentiels):
+    n = len(couts)
+    m = len(couts[0])
+
+    # On crée une matrice des coûts marginaux avec que des 0 qu'on remplit
+    marg = [[0]*m for _ in range(n)]
+    for i in range(n):
+        for j in range(m):
+            if couts_potentiels[i][j] is not None:
+                marg[i][j] = couts[i][j] - couts_potentiels[i][j]
+            else:
+                marg[i][j] = 0
+    return marg
+
+
+# Vérifie si la proposition contient un cycle
 def est_cyclique(proposition_transport):
+    
     n = len(proposition_transport)-1     
     m = len(proposition_transport[0])-1  
 
     nb_sommets = n + m
     adj = [[] for _ in range(nb_sommets)]
 
+    
     for i in range(n):
         for j in range(m):
             if proposition_transport[i][j] > 0:
@@ -182,6 +145,7 @@ def est_cyclique(proposition_transport):
     visited = [False] * nb_sommets
     parent  = [-1] * nb_sommets
 
+    # Parcours de tout les sommets
     for start in range(nb_sommets):
         if not adj[start]:  # sommet isolé
             continue
@@ -203,6 +167,7 @@ def est_cyclique(proposition_transport):
                 elif parent[u] != v:
                     # Cycle détecté
                     cycle = reconstruire_cycle(parent, u, v, n)
+                    # renvoie le cycle et true si il y en a un
                     return True, cycle
 
     print("Aucun cycle détecté.")
@@ -210,30 +175,32 @@ def est_cyclique(proposition_transport):
 
 
 
-# ---------- Reconstruit le cycle complet entre u et v ----------
+
+# Reconstruit le cycle complet entre deux sommets u et v
 def reconstruire_cycle(parent, u, v, n):
-    # Remonte depuis u jusqu'à la racine
-    chemin_u = []
+
+    chemin_u, chemin_v = [], []
+    
+    # Remonte jusqu'à la racine depuis u
     cur = u
     while cur != -1:
         chemin_u.append(cur)
         cur = parent[cur]
 
     # Remonte depuis v jusqu'à la racine
-    chemin_v = []
     cur = v
     while cur != -1:
         chemin_v.append(cur)
         cur = parent[cur]
 
-    # Trouver le premier ancêtre commun
+    # Trouver le premier en commun
     set_u = set(chemin_u)
     for noeud in chemin_v:
         if noeud in set_u:
             lca = noeud
             break
 
-    # Construire chemin u → LCA
+    # Construire le cycle
     cycle_u = []
     cur = u
     while cur != lca:
@@ -241,7 +208,6 @@ def reconstruire_cycle(parent, u, v, n):
         cur = parent[cur]
     cycle_u.append(lca)
 
-    # Construire chemin v → LCA (en sens inverse)
     cycle_v = []
     cur = v
     while cur != lca:
@@ -252,7 +218,7 @@ def reconstruire_cycle(parent, u, v, n):
 
     cycle = cycle_u + cycle_v
 
-    # convertir les index internes en noms S_i / C_j
+    #   Convertir les indices en noms S_i et C_j
     cycle_nomme = []
     for s in cycle:
         if s < n:
@@ -262,7 +228,7 @@ def reconstruire_cycle(parent, u, v, n):
 
     return cycle_nomme
 
-
+# Vérifie si la proposition est connexe
 def est_connexe(proposition_transport):
     n = len(proposition_transport)      # lignes -> sommets S
     m = len(proposition_transport[0])   # colonnes -> sommets C
@@ -271,6 +237,7 @@ def est_connexe(proposition_transport):
     nb_sommets = n + m
     adj = [[] for _ in range(nb_sommets)]
 
+    # Création des arêtes
     for i in range(n):
         for j in range(m):
             if proposition_transport[i][j] != 0:
@@ -279,7 +246,7 @@ def est_connexe(proposition_transport):
                 adj[s].append(c)
                 adj[c].append(s)
 
-    # ----- BFS pour trouver toutes les composantes -----
+    # BFS pour trouver les composantes connexes
     visited = [False] * nb_sommets
     composantes = []
 
@@ -291,7 +258,7 @@ def est_connexe(proposition_transport):
             composantes.append([start])   # composante de taille 1
             continue
 
-        # BFS normal
+        # BFS 
         queue = deque([start])
         visited[start] = True
         composante = [start]
@@ -306,8 +273,6 @@ def est_connexe(proposition_transport):
                     queue.append(v)
 
         composantes.append(composante)
-
-    # ----- Analyse du résultat -----
 
     # Filtrer les composantes réellement "actives" (celles qui touchent au transport)
     composantes_significatives = [
@@ -328,7 +293,8 @@ def est_connexe(proposition_transport):
         return False
 
 
-# ----- Utilitaire pour afficher les sommets S_i et C_j -----
+
+# Convertit une composante en noms S_i / C_j
 def afficher_composante(composante, n):
     noms = []
     for s in composante:
@@ -339,30 +305,34 @@ def afficher_composante(composante, n):
     return noms
 
 
-def arete_a_ajouter(couts_potentiels) :
-    i = 0
-    j = 0
-
-    for i in range (len(couts_potentiels)) :
-        for j in range (len(couts_potentiels[0])) :
-            if(couts_potentiels[i][j] < 0) :
-                return (i,j)
+# Trouve une arête à ajouter pour améliorer la solution
+def arete_a_ajouter(couts_marginaux):
+    for i in range(len(couts_marginaux)):
+        for j in range(len(couts_marginaux[0])):
+            if couts_marginaux[i][j] < 0:
+                return (i, j)
     return None
+
 
 
 #   
 # Steve fait cet algo
+# Algorithme du marche-pied par potentiel
 #
 def marche_pied_potentiel(graphes, couts, proposition_transport) :
+    # Vérifier si la proposition est dégénérée
     if est_degeneree(proposition_transport):
         print("\n=== Proposition dégénérée détectée ===")
+
+        # Compléter la base
         proposition_transport = completer_base(proposition_transport)
         print("Proposition après complétion de la base :")
-        afficher_matrice(proposition_transport,len(proposition_transport),len(proposition_transport[0]))
         print()
 
+    # Boucle principale du marche-pied tant que la solution n'est pas optimale avec nombre d'itérations
     iteration = 0
-    while True :        
+    while True :
+        # incrémente le nbr d'itérations        
         iteration += 1
         print(f"\n=== Itération n°{iteration} ===")
         # print("Matrice des coûts :")
@@ -373,53 +343,61 @@ def marche_pied_potentiel(graphes, couts, proposition_transport) :
         afficher_matrice(proposition_transport, len(proposition_transport), len(proposition_transport[0]))
         print()
 
+        # Calcul du coût total de transport en arrondissant pour pas prendre les epsilon en compte
         cout_transport = round(calcul_cout_transport(couts, proposition_transport))
         print(f"Coût total de transport : {cout_transport}\n")
         
+        # Vérification de si il y a un cycle 
         est_cycle, cycle = est_cyclique(proposition_transport)
-
+        # si ya un cycle, on sort de la boucle
         if est_cycle:
             print("La proposition est cyclique.")
-            break
+            break # -> ici pas bon, ya un problème mais pas réussi à résoudre donc on sort pour éviter de planter normalement faudrait, code doublon avec la suite...
+            
+        # si pas de cycle, on vérifie si la proposition est connexe et si elle ne l'est pas, on sort de la boucle
         if(not est_connexe(proposition_transport)) :
             print("La proposition n'est pas connexe.")
-            break # Retirer
+            break 
         
         print("La proposition est connexe.")
 
-        
+        # Calcul des potentiels
         couts_potentiels = calcul_potentiels(couts, proposition_transport)
         
-        
+        # affichage des potentiels
         print("\n=== Coûts potentiels : === ")
         afficher_matrice(couts_potentiels, len(couts_potentiels), len(couts_potentiels[0]))
         print()
 
-        # Ce qu'il faut faire maintenant :
-        # On part d'un sommet S avec potentiel (i.e ceux reliés au sommet très connecté), et on remplit les sommets C
-        # Après cela, on traite les sommets S qui n'ont pas encore de potentiel
-
+        # Calcul des coûts marginaux
         couts_marginaux = calcul_couts_marginaux(couts, couts_potentiels)
-        
+        # affichage des coûts marginaux
         print("Coûts marginaux :")
         afficher_matrice(couts_marginaux, len(couts_marginaux), len(couts_marginaux[0]))
         print()
 
-        # Modifier ici, pour sortir de la boucle while si on a une proposition optimale
+        # Si la solution n'est pas optimale, ajouter une arête et corriger avec cycle
         if not est_optimale(couts_marginaux):
             print("La proposition n'est pas optimale")
 
+            # Trouver l'arête à ajouter
             arete = arete_a_ajouter(couts_marginaux)
+            # si y en a pas, on sort de la boucle
+            if arete is None:
+                break
+            # affiche l'arrête qu'on a ajouté
             print(f"Arête améliorante ajoutée : {arete}")
 
+            # Ajout de l'arête avec une valeur epsilon
             i, j = arete
             proposition_transport[i][j] = 1e-5
 
+            # Recherche du cycle créé avec l'arrete
             est_cycle, cycle = est_cyclique(proposition_transport)
             if est_cycle:
                 print("Cycle trouvé :", cycle)
+                # Maximisation sur le cycle
                 proposition_transport = maximiser_sur_cycle(proposition_transport, cycle, arete)
-
 
             else:
                 print("Erreur : aucun cycle trouvé")
@@ -429,17 +407,16 @@ def marche_pied_potentiel(graphes, couts, proposition_transport) :
             
         else :
             break # Sort de la boucle
-
-    # Après qu'on soit sorti de la boucle...
     
     # Nettoyage final de la solution (enlever les epsilons)
     proposition_transport = nettoyer_solution(proposition_transport)
 
-    # Affichage final propre
+    # Affichage final de la proposition bien selon nous
     print("La proposition est optimale.")
     afficher_matrice(proposition_transport, len(proposition_transport), len(proposition_transport[0]))
     print()
 
+    # calcul final des couts du transports (on arrondit encore pour pas prendre les epsilons dans les calculs en compte)
     cout_transport = round(calcul_cout_transport(couts, proposition_transport))
 
     print(f"Coût total de transport : {cout_transport}")
@@ -448,41 +425,93 @@ def marche_pied_potentiel(graphes, couts, proposition_transport) :
     return proposition_transport
 
 
-
+# Ajuste maximiser la solution (fait avec IA car notre solution ne marchait pas)
 def maximiser_sur_cycle(proposition_transport, cycle, arete_ajoutee):
-    # Conversion cycle en arêtes
     aretes = []
     for k in range(len(cycle)):
-        s1 = cycle[k]
-        s2 = cycle[(k + 1) % len(cycle)]
-        if s1.startswith("S") and s2.startswith("C"):
-            i, j = int(s1[1:]), int(s2[1:])
-        elif s1.startswith("C") and s2.startswith("S"):
-            i, j = int(s2[1:]), int(s1[1:])
+        a = cycle[k]
+        b = cycle[(k+1) % len(cycle)]
+        if a.startswith("S") and b.startswith("C"):
+            i, j = int(a[1:]), int(b[1:])
+        elif a.startswith("C") and b.startswith("S"):
+            i, j = int(b[1:]), int(a[1:])
         else:
-            raise ValueError(f"Cycle mal formé: {s1}-{s2}")
-        aretes.append((i,j))
+            continue
+        aretes.append((i, j))
 
-    idx_plus = aretes.index(arete_ajoutee)
+    if arete_ajoutee not in aretes:
+        return proposition_transport
 
-    aretes_plus = aretes[idx_plus::2] + aretes[:idx_plus:2]
-    aretes_moins = aretes[idx_plus+1::2] + aretes[1:idx_plus:2]
+    idx = aretes.index(arete_ajoutee)
 
-    # delta : plus petite valeur dans les arêtes à diminuer, ignorer les epsilons
-    delta = min([proposition_transport[i][j] for (i,j) in aretes_moins if proposition_transport[i][j] > 1e-5])
-    print(f"Delta = {delta}")
+    aretes_plus = []
+    aretes_moins = []
 
-    # Appliquer delta aux arêtes + et - avec arrondi entier
-    for (i,j) in aretes_plus:
-        proposition_transport[i][j] = int(round(proposition_transport[i][j] + delta))
+    for k, (i, j) in enumerate(aretes):
+        if (k - idx) % 2 == 0:
+            aretes_plus.append((i, j))
+        else:
+            aretes_moins.append((i, j))
 
-    for (i,j) in aretes_moins:
-        proposition_transport[i][j] = int(round(proposition_transport[i][j] - delta))
-        if proposition_transport[i][j] == 0:
-            print(f"Arête supprimée : ({i},{j})")
+    # delta = minimum STRICT des arêtes moins
+    delta = min(proposition_transport[i][j] for (i, j) in aretes_moins)
+
+    for (i, j) in aretes_plus:
+        proposition_transport[i][j] += delta
+
+    for (i, j) in aretes_moins:
+        proposition_transport[i][j] -= delta
+        if proposition_transport[i][j] < 1e-8:
+            proposition_transport[i][j] = 0
 
     return proposition_transport
 
+
+
+
+
+
+
+
+
+
+
+# Permet de vérifier si une proposition de transport est dégénérée
+def est_degeneree(proposition_transport):
+    n = len(proposition_transport)-1
+    m = len(proposition_transport[0])-1
+    nb = 0
+    for i in range(n):
+        for j in range(m):
+            if proposition_transport[i][j] > 1e-5:
+                nb += 1
+    return nb < (n + m - 1)
+
+
+# Permet de compléter une base dégénérée en ajoutant des epsilons
+def completer_base(proposition_transport):
+    n = len(proposition_transport) - 1
+    m = len(proposition_transport[0]) - 1
+
+    nb_requis = n + m - 1
+    # Calcul du nombre d'arêtes actuelles
+    nb_aretes = 0
+    # On regarde les arretes existantes
+    for i in range(n):
+        for j in range(m):
+            if proposition_transport[i][j] > 0:
+                nb_aretes += 1
+
+    epsilon = 1e-6
+    # Ajout des epsilons jusqu'à atteindre le nombre d'arretes qui va bien  
+    for i in range(n):
+        for j in range(m):
+            if proposition_transport[i][j] == 0 and nb_aretes < nb_requis:
+                proposition_transport[i][j] = epsilon
+                nb_aretes += 1
+                print(f"Ajout de ε en position ({i},{j})")
+
+    return proposition_transport
 
 
 # permet d'enlever les epsilons de la solution finale et d'avoir un affichage beau
@@ -497,62 +526,5 @@ def nettoyer_solution(proposition_transport, epsilon=1e-5):
             else:
                 # Arrondi final à l'entier
                 proposition_transport[i][j] = int(round(proposition_transport[i][j]))
-
-    return proposition_transport
-
-
-
-
-
-
-# Permet de vérifier si une proposition de transport est dégénérée
-def est_degeneree(proposition_transport):
-    n = len(proposition_transport)-1
-    m = len(proposition_transport[0])-1
-    nb = 0
-    for i in range(n):
-        for j in range(m):
-            if proposition_transport[i][j] > 0:
-                nb += 1
-    return nb < (n + m - 1)
-
-
-# Permet de compléter une base dégénérée en ajoutant des epsilons
-def completer_base(proposition_transport):
-    n = len(proposition_transport) - 1
-    m = len(proposition_transport[0]) - 1
-
-    nb_requis = n + m - 1
-    # Calcul du nombre d'arêtes actuelles
-    nb_aretes = 0
-    for i in range(n):
-        for j in range(m):
-            if proposition_transport[i][j] > 0:
-                nb_aretes += 1
-
-    epsilon = 1e-6
-    # Ajout des epsilons jusqu'à atteindre le nombre requis
-    for i in range(n):
-        for j in range(m):
-            if proposition_transport[i][j] == 0 and nb_aretes < nb_requis:
-                proposition_transport[i][j] = epsilon
-                nb_aretes += 1
-                print(f"Ajout de ε en position ({i},{j})")
-
-    return proposition_transport
-
-
-
-# permet d'enlever les epsilons de la solution finale
-def nettoyer_solution(proposition_transport, epsilon=1e-5):
-    n = len(proposition_transport)-1
-    m = len(proposition_transport[0])-1
-
-    for i in range(n):
-        for j in range(m):
-            if abs(proposition_transport[i][j]) < epsilon:
-                proposition_transport[i][j] = 0
-            else:
-                proposition_transport[i][j] = round(proposition_transport[i][j]) 
 
     return proposition_transport

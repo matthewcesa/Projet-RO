@@ -1,0 +1,107 @@
+Choisissez le numéro du problème à traiter (0 pour sortir): 8
+Probleme : 8
+=== Matrice des coûts : ===
+   50      20   
+   10      50   
+   55      40   
+   35      45   
+   12      8    
+=== Proposition de transport : ===
+inf       inf       100       
+inf       inf       200
+inf       inf       100
+inf       inf       200
+inf       inf       200
+300       500       800
+
+Choisissez l'algorithme à utiliser :
+1 : Nord-Ouest
+2 : Balas-Hammer
+Votre choix : 1
+
+Vous avez choisi Nord-Ouest
+
+=== Proposition de transport avec Nord-Ouest : ===
+100       0         100
+200       0         200
+0         100       100
+0         200       200
+0         200       200
+300       500       800
+
+=== Proposition dégénérée détectée ===
+Ajout de ε en position (0,1)
+Proposition après complétion de la base :
+
+
+=== Itération n°1 ===
+
+Proposition de transport actuelle :
+100       1e-06     100
+200       0         200
+0         100       100
+0         200       200
+0         200       200
+300       500       800
+
+Coût total de transport : 21600
+
+Aucun cycle détecté.
+La proposition est connexe.
+
+=== Coûts potentiels : ===
+50        20
+10        -20
+70        40
+75        45
+38        8
+
+Coûts marginaux :
+0         0
+0         70
+-15       0
+-40       0
+-26       0
+
+La proposition n'est pas optimale
+Arête améliorante ajoutée : (2, 0)
+Cycle trouvé : ['C1', 'S0', 'C0', 'S2']
+
+=== Itération n°2 ===
+
+Proposition de transport actuelle :
+0         100.000001100
+200       0         200
+100.00001 0         100
+0         200       200
+0         200       200
+300       500       800
+
+Coût total de transport : 20100
+
+Aucun cycle détecté.
+La proposition est connexe.
+
+=== Coûts potentiels : ===
+None      20
+None      None
+None      None
+None      45
+None      8
+
+Coûts marginaux :
+0         0
+0         0
+0         0
+0         0
+0         0
+
+La proposition est optimale.
+0         100       100
+200       0         200
+100       0         100
+0         200       200
+0         200       200
+300       500       800
+
+Coût total de transport : 20100

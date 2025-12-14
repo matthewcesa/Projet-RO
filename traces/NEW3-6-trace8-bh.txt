@@ -1,0 +1,69 @@
+Choisissez le numéro du problème à traiter (0 pour sortir): 8
+Probleme : 8
+=== Matrice des coûts : ===
+   50      20   
+   10      50   
+   55      40   
+   35      45   
+   12      8    
+=== Proposition de transport : ===
+inf       inf       100       
+inf       inf       200
+inf       inf       100
+inf       inf       200
+inf       inf       200
+300       500       800
+
+Choisissez l'algorithme à utiliser :
+1 : Nord-Ouest
+2 : Balas-Hammer
+Votre choix : 2
+
+Vous avez choisi Balas-Hammer
+
+=== Proposition de transport avec Balas-Hammer : ===
+0         100       100
+200       0         200
+0         100       100
+100       100       200
+0         200       200
+300       500       800
+
+=== Itération n°1 ===
+
+Proposition de transport actuelle :
+0         100       100
+200       0         200
+0         100       100
+100       100       200
+0         200       200
+300       500       800
+
+Coût total de transport : 17600
+
+Aucun cycle détecté.
+La proposition est connexe.
+
+=== Coûts potentiels : ===
+10        20
+10        20
+30        40
+35        45
+-2        8
+
+Coûts marginaux :
+40        0
+0         30
+25        0
+0         0
+14        0
+
+La proposition est optimale.
+0         100       100
+200       0         200
+0         100       100
+100       100       200
+0         200       200
+300       500       800
+
+Coût total de transport : 17600

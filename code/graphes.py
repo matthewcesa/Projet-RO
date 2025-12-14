@@ -14,7 +14,17 @@ class graphes :
     
     #méthode qui lit le fichier txt et mémorise les données pour en faire des matrices
     @classmethod
+    @classmethod
     def lecture_fichier_txt(cls, nom_fichier) : 
+        # réinitialisation des matrices et variables de classe
+        # i.e. si on appelle plusieurs fois cette méthode, on ne garde pas les anciennes valeurs.
+        cls.matrice_provisions_x_commandes = []
+        cls.matrice_couts = []
+        cls.matrice_couts_potentiel = []
+        cls.matrice_couts_marginaux = []
+        cls.P = 0
+        cls.C = 0
+
         with open (nom_fichier, 'r') as f:
             lignes = [l.strip() for l in f.readlines()] 
         

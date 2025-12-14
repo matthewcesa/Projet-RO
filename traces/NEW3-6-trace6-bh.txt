@@ -1,0 +1,48 @@
+Choisissez le numéro du problème à traiter (0 pour sortir): 6
+Probleme : 6
+=== Matrice des coûts : ===
+   11      12      10      10   
+   17      16      15      18   
+   19      21      20      22   
+=== Proposition de transport : ===
+inf       inf       inf       inf       60        
+inf       inf       inf       inf       30        
+inf       inf       inf       inf       90        
+50        75        30        25        180
+
+Choisissez l'algorithme à utiliser :
+1 : Nord-Ouest
+2 : Balas-Hammer
+Votre choix : 2
+
+Vous avez choisi Balas-Hammer
+
+=== Proposition de transport avec Balas-Hammer : ===
+35        0         0         25        60
+0         0         30        0         30
+15        75        0         0         90
+50        75        30        25        180
+
+=== Proposition dégénérée détectée ===
+Ajout de ε en position (0,1)
+Proposition après complétion de la base :
+
+
+=== Itération n°1 ===
+
+Proposition de transport actuelle :
+35        1e-06     0         25        60
+0         0         30        0         30
+15        75        0         0         90
+50        75        30        25        180
+
+Coût total de transport : 2945
+
+La proposition est cyclique.
+La proposition est optimale.
+35        0         0         25        60
+0         0         30        0         30
+15        75        0         0         90
+50        75        30        25        180
+
+Coût total de transport : 2945

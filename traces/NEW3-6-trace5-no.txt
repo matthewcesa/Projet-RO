@@ -1,0 +1,109 @@
+Choisissez le numéro du problème à traiter (0 pour sortir): 5
+Probleme : 5
+=== Matrice des coûts : ===
+   5       7       8    
+   6       8       5    
+   6       7       7    
+=== Proposition de transport : ===
+inf       inf       inf       25        
+inf       inf       inf       25        
+inf       inf       inf       25        
+35        20        20        75
+
+Choisissez l'algorithme à utiliser :
+1 : Nord-Ouest
+2 : Balas-Hammer
+Votre choix : 1
+
+Vous avez choisi Nord-Ouest
+
+=== Proposition de transport avec Nord-Ouest : ===
+25        0         0         25
+10        15        0         25
+0         5         20        25
+35        20        20        75
+
+=== Itération n°1 ===
+
+Proposition de transport actuelle :
+25        0         0         25
+10        15        0         25
+0         5         20        25
+35        20        20        75
+
+Coût total de transport : 480
+
+Aucun cycle détecté.
+La proposition est connexe.
+
+=== Coûts potentiels : ===
+5         7         7
+6         8         8
+5         7         7
+
+Coûts marginaux :
+0         0         1
+0         0         -3
+1         0         0
+
+La proposition n'est pas optimale
+Arête améliorante ajoutée : (1, 2)
+Cycle trouvé : ['C2', 'S1', 'C1', 'S2']
+
+=== Itération n°2 ===
+
+Proposition de transport actuelle :
+25        0         0         25
+10        0         15.00001  25
+0         20        5         25
+35        20        20        75
+
+Coût total de transport : 435
+
+Aucun cycle détecté.
+La proposition est connexe.
+
+=== Coûts potentiels : ===
+5         4         4
+6         5         5
+8         7         7
+
+Coûts marginaux :
+0         3         4
+0         3         0
+-2        0         0
+
+La proposition n'est pas optimale
+Arête améliorante ajoutée : (2, 0)
+Cycle trouvé : ['S2', 'C0', 'S1', 'C2']
+
+=== Itération n°3 ===
+
+Proposition de transport actuelle :
+25        0         0         25
+5         0         20.00001  25
+5.00001   20        0         25
+35        20        20        75
+
+Coût total de transport : 425
+
+Aucun cycle détecté.
+La proposition est connexe.
+
+=== Coûts potentiels : ===
+5         6         4
+6         7         5
+6         7         5
+
+Coûts marginaux :
+0         1         4
+0         1         0
+0         0         2
+
+La proposition est optimale.
+25        0         0         25
+5         0         20        25
+5         20        0         25
+35        20        20        75
+
+Coût total de transport : 425
