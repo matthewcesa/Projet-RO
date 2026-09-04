@@ -35,7 +35,6 @@ Une étude approfondie de la complexité dans le pire des cas est réalisée pou
 ## 📂 Structure du Dépôt
 
 ```text
-├── src/                  # Code source du programme (C, C++, Python ou Java)
-├── data/                 # Les 12 fichiers .txt des problèmes de transport (Annexes)
-├── traces/               # Traces d'exécution pour les 12 problèmes (NO et BH)
-└── rapport/              # Rapport d'étude de la complexité (max 5 pages)
+├── code/                 # algorithme et fonctions principales du projet (Python)
+├── matrice/              # Les 12 fichiers .txt des problèmes de transport (Annexes)
+├── nuages_points/        # Traces d'exécution pour les 12 problèmes (Nord-Ouest, Balas-Hammer et Ballas-Hammer marche-pied)
