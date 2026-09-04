@@ -1,4 +1,4 @@
-# 📦 Projet de Recherche Opérationnelle - Résolution de Problèmes de Transport
+# Projet de Recherche Opérationnelle - Résolution de Problèmes de Transport
 
 > **École :** Efrei Paris  
 > **Département :** Mathématiques  
